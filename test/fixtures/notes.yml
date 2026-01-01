@@ -1,0 +1,20 @@
+alice_note:
+  user: alice
+  title: "Alice's First Note"
+  color: blue
+  pinned: false
+  position: 0
+
+alice_pinned_note:
+  user: alice
+  title: "Alice's Pinned Note"
+  color: green
+  pinned: true
+  position: 0
+
+bob_note:
+  user: bob
+  title: "Bob's Note"
+  color: red
+  pinned: false
+  position: 0

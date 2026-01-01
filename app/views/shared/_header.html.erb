@@ -1,0 +1,56 @@
+<header class="bg-white dark:bg-gray-800 shadow">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center gap-6">
+        <%= link_to t("application.name"), root_path, class: "text-xl font-bold text-gray-900 dark:text-white" %>
+
+        <nav class="hidden md:flex items-center gap-4">
+          <%= link_to t("header.shared_with_me"), shared_notes_path,
+              class: "text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" %>
+          <%= link_to t("header.tags"), tags_path,
+              class: "text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" %>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <label class="flex items-center cursor-pointer" data-controller="dark-mode">
+          <span class="mr-2 text-sm text-gray-600 dark:text-gray-300 hidden sm:inline"><%= t("header.dark_mode") %></span>
+          <input type="checkbox"
+                 class="sr-only"
+                 <%= "checked" if current_user.dark_mode? %>
+                 data-dark-mode-target="checkbox"
+                 data-action="change->dark-mode#toggle">
+          <div class="relative w-10 h-5 bg-gray-300 dark:bg-gray-600 rounded-full transition-colors">
+            <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform dark:translate-x-5"></div>
+          </div>
+        </label>
+
+        <div class="relative" data-controller="dropdown">
+          <button type="button"
+                  class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                  data-action="click->dropdown#toggle">
+            <span><%= current_user.display_name %></span>
+            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <div class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg py-1 z-10"
+               data-dropdown-target="menu">
+            <div class="md:hidden border-b border-gray-200 dark:border-gray-600 pb-1 mb-1">
+              <%= link_to t("header.shared_with_me"), shared_notes_path,
+                  class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" %>
+              <%= link_to t("header.tags"), tags_path,
+                  class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" %>
+            </div>
+            <%= link_to t("header.connections"), connections_path,
+                class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" %>
+            <%= button_to t("header.sign_out"), session_path,
+                method: :delete,
+                class: "block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

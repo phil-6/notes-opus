@@ -1,0 +1,4 @@
+alice_note_shared_with_bob:
+  note: alice_note
+  shared_with_user: bob
+  can_edit: true

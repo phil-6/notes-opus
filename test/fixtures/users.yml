@@ -1,0 +1,11 @@
+alice:
+  email_address: alice@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  display_name: Alice Smith
+  dark_mode: false
+
+bob:
+  email_address: bob@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  display_name: Bob Jones
+  dark_mode: true

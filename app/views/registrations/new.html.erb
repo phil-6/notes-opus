@@ -1,0 +1,74 @@
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= t("application.name") %></h1>
+      <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("registrations.new.title") %></h2>
+    </div>
+
+    <%= form_with model: @user, url: registration_path, class: "mt-8 space-y-6" do |form| %>
+      <% if @user.errors.any? %>
+        <div class="bg-red-100 border border-red-400 text-red-700 dark:bg-red-800 dark:border-red-600 dark:text-red-200 px-4 py-3 rounded">
+          <ul class="list-disc list-inside">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="space-y-4">
+        <div>
+          <%= form.label :display_name, t("registrations.new.display_name"), class: "form-label" %>
+          <%= form.text_field :display_name,
+                              required: true,
+                              autofocus: true,
+                              autocomplete: "name",
+                              placeholder: t("registrations.new.display_name_placeholder"),
+                              class: "form-input mt-1" %>
+        </div>
+
+        <div>
+          <%= form.label :email_address, t("registrations.new.email"), class: "form-label" %>
+          <%= form.email_field :email_address,
+                               required: true,
+                               autocomplete: "email",
+                               placeholder: t("registrations.new.email_placeholder"),
+                               class: "form-input mt-1" %>
+        </div>
+
+        <div>
+          <%= form.label :password, t("registrations.new.password"), class: "form-label" %>
+          <%= form.password_field :password,
+                                  required: true,
+                                  autocomplete: "new-password",
+                                  placeholder: t("registrations.new.password_placeholder"),
+                                  minlength: 8,
+                                  maxlength: 72,
+                                  class: "form-input mt-1" %>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t("registrations.new.password_hint") %></p>
+        </div>
+
+        <div>
+          <%= form.label :password_confirmation, t("registrations.new.password_confirmation"), class: "form-label" %>
+          <%= form.password_field :password_confirmation,
+                                  required: true,
+                                  autocomplete: "new-password",
+                                  placeholder: t("registrations.new.password_confirmation_placeholder"),
+                                  minlength: 8,
+                                  maxlength: 72,
+                                  class: "form-input mt-1" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit t("registrations.new.submit"), class: "btn-primary w-full" %>
+      </div>
+
+      <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+        <%= t("registrations.new.have_account") %>
+        <%= link_to t("registrations.new.sign_in"), new_session_path,
+            class: "text-blue-600 hover:text-blue-500 dark:text-blue-400 font-medium" %>
+      </div>
+    <% end %>
+  </div>
+</div>

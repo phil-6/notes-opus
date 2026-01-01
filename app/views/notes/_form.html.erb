@@ -1,0 +1,97 @@
+<dialog open
+        class="fixed inset-0 z-50 overflow-y-auto"
+        data-controller="dialog"
+        data-action="keydown.esc->dialog#close click->dialog#closeOnBackdrop">
+  <div class="flex min-h-screen items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/50" aria-hidden="true"></div>
+
+    <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full p-6"
+         data-controller="autosave"
+         data-autosave-url-value="<%= url %>"
+         data-autosave-method-value="<%= local_assigns[:method] || :post %>">
+
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+          <%= note.new_record? ? t("notes.form.new_title") : t("notes.form.edit_title") %>
+        </h2>
+        <button type="button"
+                class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                data-action="click->dialog#close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <%= form_with model: note, url: url, method: local_assigns[:method] || :post, data: { autosave_target: "form" } do |form| %>
+        <div class="space-y-4">
+          <div>
+            <%= form.text_field :title,
+                placeholder: t("notes.form.title_placeholder"),
+                class: "form-input text-lg font-medium",
+                data: { action: "input->autosave#save" } %>
+          </div>
+
+          <div>
+            <%= form.rich_text_area :content,
+                placeholder: t("notes.form.content_placeholder"),
+                class: "form-input min-h-48",
+                data: { action: "input->autosave#save" } %>
+          </div>
+
+          <div>
+            <label class="form-label mb-2"><%= t("notes.form.color") %></label>
+            <div class="flex flex-wrap gap-2" data-controller="color-picker">
+              <% Note::COLORS.each do |color| %>
+                <label class="color-swatch bg-<%= color %>-200 dark:bg-<%= color %>-700 <%= 'selected' if note.color == color %>"
+                       data-color-picker-target="swatch"
+                       data-color="<%= color %>">
+                  <%= form.radio_button :color, color,
+                      class: "sr-only",
+                      data: { action: "change->color-picker#select change->autosave#save" } %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <% if current_user.tags.any? %>
+            <div>
+              <label class="form-label mb-2"><%= t("notes.form.tags") %></label>
+              <div class="flex flex-wrap gap-2">
+                <% current_user.tags.each do |tag| %>
+                  <label class="inline-flex items-center cursor-pointer">
+                    <%= form.check_box :tag_ids,
+                        { multiple: true, checked: note.tags.include?(tag), data: { action: "change->autosave#save" } },
+                        tag.id, nil %>
+                    <span class="ml-1 text-sm text-gray-700 dark:text-gray-300"><%= tag.name %></span>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <% unless note.new_record? %>
+            <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+              <span>
+                <%= t("notes.form.last_updated", time: time_ago_in_words(note.updated_at)) %>
+              </span>
+              <%= link_to t("notes.form.view_history"), note_versions_path(note),
+                  class: "text-blue-600 hover:text-blue-500 dark:text-blue-400",
+                  data: { turbo_frame: "_top" } %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-6 flex justify-end gap-3">
+          <button type="button"
+                  class="btn-secondary"
+                  data-action="click->dialog#close">
+            <%= t("common.cancel") %>
+          </button>
+          <%= form.submit note.new_record? ? t("notes.form.create") : t("notes.form.save"),
+              class: "btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</dialog>

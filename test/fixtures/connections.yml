@@ -1,0 +1,3 @@
+alice_to_bob:
+  user: alice
+  connected_user: bob

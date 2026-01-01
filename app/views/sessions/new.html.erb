@@ -1,0 +1,48 @@
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= t("application.name") %></h1>
+      <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("sessions.new.title") %></h2>
+    </div>
+
+    <%= form_with url: session_url, class: "mt-8 space-y-6" do |form| %>
+      <div class="space-y-4">
+        <div>
+          <%= form.label :email_address, t("sessions.new.email"), class: "form-label" %>
+          <%= form.email_field :email_address,
+                               required: true,
+                               autofocus: true,
+                               autocomplete: "username",
+                               placeholder: t("sessions.new.email_placeholder"),
+                               value: params[:email_address],
+                               class: "form-input mt-1" %>
+        </div>
+
+        <div>
+          <%= form.label :password, t("sessions.new.password"), class: "form-label" %>
+          <%= form.password_field :password,
+                                  required: true,
+                                  autocomplete: "current-password",
+                                  placeholder: t("sessions.new.password_placeholder"),
+                                  maxlength: 72,
+                                  class: "form-input mt-1" %>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <%= link_to t("sessions.new.forgot_password"), new_password_path,
+            class: "text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400" %>
+      </div>
+
+      <div>
+        <%= form.submit t("sessions.new.submit"), class: "btn-primary w-full" %>
+      </div>
+
+      <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+        <%= t("sessions.new.no_account") %>
+        <%= link_to t("sessions.new.sign_up"), new_registration_path,
+            class: "text-blue-600 hover:text-blue-500 dark:text-blue-400 font-medium" %>
+      </div>
+    <% end %>
+  </div>
+</div>

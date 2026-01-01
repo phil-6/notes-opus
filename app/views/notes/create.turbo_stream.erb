@@ -1,0 +1,5 @@
+<%= turbo_stream.prepend "unpinned-notes" do %>
+  <%= render "note_card", note: @note %>
+<% end %>
+
+<%= turbo_stream.update "modal", "" %>

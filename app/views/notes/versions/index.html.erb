@@ -1,0 +1,37 @@
+<div class="max-w-3xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white"><%= t("versions.index.title") %></h1>
+    <%= link_to t("common.back"), notes_path, class: "btn-secondary" %>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-4 p-4">
+    <h2 class="font-medium text-gray-900 dark:text-white"><%= @note.title.presence || t("notes.untitled") %></h2>
+    <p class="text-sm text-gray-500 dark:text-gray-400">
+      <%= t("versions.index.note_info", owner: @note.user.display_name) %>
+    </p>
+  </div>
+
+  <% if @versions.any? %>
+    <div class="space-y-4">
+      <% @versions.each do |version| %>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-900 dark:text-white">
+              <%= version.user.display_name %>
+            </span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              <%= l(version.created_at, format: :long) %>
+            </span>
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-300 prose prose-sm dark:prose-invert max-w-none">
+            <%= sanitize version.content %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+      <p><%= t("versions.index.no_versions") %></p>
+    </div>
+  <% end %>
+</div>

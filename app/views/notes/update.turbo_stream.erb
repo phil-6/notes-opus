@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@note) do %>
+  <%= render "note_card", note: @note %>
+<% end %>

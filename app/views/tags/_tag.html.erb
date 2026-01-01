@@ -1,0 +1,14 @@
+<li id="<%= dom_id(tag) %>" class="flex items-center justify-between p-4">
+  <div>
+    <span class="tag-badge text-base"><%= tag.name %></span>
+    <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">
+      <%= t("tags.note_count", count: tag.notes.count) %>
+    </span>
+  </div>
+  <%= button_to tag_path(tag),
+      method: :delete,
+      class: "text-red-600 hover:text-red-700 dark:text-red-400 text-sm",
+      data: { turbo_confirm: t("tags.confirm_delete") } do %>
+    <%= t("tags.index.delete") %>
+  <% end %>
+</li>
