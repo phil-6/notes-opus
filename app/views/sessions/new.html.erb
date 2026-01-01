@@ -5,11 +5,12 @@
       <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("sessions.new.title") %></h2>
     </div>
 
-    <%= form_with url: session_url, class: "mt-8 space-y-6" do |form| %>
+    <%= form_with url: session_url, id: "session-form", class: "mt-8 space-y-6" do |form| %>
       <div class="space-y-4">
         <div>
           <%= form.label :email_address, t("sessions.new.email"), class: "form-label" %>
           <%= form.email_field :email_address,
+                               id: "session_email_address",
                                required: true,
                                autofocus: true,
                                autocomplete: "username",
@@ -21,6 +22,7 @@
         <div>
           <%= form.label :password, t("sessions.new.password"), class: "form-label" %>
           <%= form.password_field :password,
+                                  id: "session_password",
                                   required: true,
                                   autocomplete: "current-password",
                                   placeholder: t("sessions.new.password_placeholder"),
@@ -35,7 +37,7 @@
       </div>
 
       <div>
-        <%= form.submit t("sessions.new.submit"), class: "btn-primary w-full" %>
+        <%= form.submit t("sessions.new.submit"), id: "session-submit", class: "btn btn-primary w-full" %>
       </div>
 
       <div class="text-center text-sm text-gray-600 dark:text-gray-400">

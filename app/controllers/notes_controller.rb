@@ -28,9 +28,13 @@ class NotesController < ApplicationController
       respond_to do |format|
         format.html { redirect_to notes_path, notice: t("notes.created") }
         format.turbo_stream
+        format.json { render json: { id: @note.id }, status: :created }
       end
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: { errors: @note.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -39,13 +43,19 @@ class NotesController < ApplicationController
   end
 
   def update
+    create_version if should_create_version?
+
     if @note.update(note_params)
       respond_to do |format|
         format.html { redirect_to notes_path, notice: t("notes.updated") }
         format.turbo_stream
+        format.json { render json: { id: @note.id }, status: :ok }
       end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: { errors: @note.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -59,12 +69,18 @@ class NotesController < ApplicationController
 
   def pin
     @note.update!(pinned: true, position: next_pinned_position)
-    redirect_to notes_path, status: :see_other
+    respond_to do |format|
+      format.html { redirect_to notes_path, status: :see_other }
+      format.turbo_stream { redirect_to notes_path, status: :see_other }
+    end
   end
 
   def unpin
     @note.update!(pinned: false, position: next_position)
-    redirect_to notes_path, status: :see_other
+    respond_to do |format|
+      format.html { redirect_to notes_path, status: :see_other }
+      format.turbo_stream { redirect_to notes_path, status: :see_other }
+    end
   end
 
   def update_position
@@ -101,5 +117,22 @@ class NotesController < ApplicationController
 
   def next_pinned_position
     (current_user.notes.pinned.maximum(:position) || 0) + 1
+  end
+
+  def should_create_version?
+    return false unless @note.content.present?
+
+    last_version = @note.versions.ordered.first
+    return true unless last_version
+
+    last_version.created_at < 5.minutes.ago
+  end
+
+  def create_version
+    @note.versions.create!(
+      user: current_user,
+      title: @note.title,
+      content: @note.content.to_plain_text
+    )
   end
 end

@@ -38,9 +38,11 @@ en:
     delete: "Delete"
     edit: "Edit"
     create: "Create"
+    close: "Close"
 
   header:
     dark_mode: "Dark mode"
+    toggle_dark_mode: "Toggle dark mode"
     connections: "Connections"
     sign_out: "Sign out"
     tags: "Tags"
@@ -89,7 +91,9 @@ en:
     form:
       new_title: "New Note"
       edit_title: "Edit Note"
+      title_label: "Note title"
       title_placeholder: "Title (optional)"
+      content_label: "Note content"
       content_placeholder: "What's on your mind?"
       color: "Color"
       tags: "Tags"
@@ -97,6 +101,9 @@ en:
       view_history: "View history"
       create: "Create Note"
       save: "Save"
+    pin: "Pin note"
+    unpin: "Unpin note"
+    delete: "Delete note"
     created: "Note created successfully."
     updated: "Note saved."
     deleted: "Note deleted."

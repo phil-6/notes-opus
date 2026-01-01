@@ -4,11 +4,13 @@ export default class extends Controller {
   static targets = ["form"]
   static values = {
     url: String,
-    method: { type: String, default: "post" }
+    method: { type: String, default: "post" },
+    noteId: { type: String, default: "" }
   }
 
   connect() {
     this.timeout = null
+    this.saving = false
   }
 
   save() {
@@ -18,19 +20,39 @@ export default class extends Controller {
     }, 1000)
   }
 
-  submitForm() {
-    if (!this.hasFormTarget) return
+  async submitForm() {
+    if (!this.hasFormTarget || this.saving) return
 
+    this.saving = true
     const formData = new FormData(this.formTarget)
+    const isNewNote = !this.noteIdValue
+    const method = isNewNote ? "POST" : "PATCH"
+    const url = isNewNote ? this.urlValue : this.urlValue.replace(/\/notes$/, `/notes/${this.noteIdValue}`)
 
-    fetch(this.urlValue, {
-      method: this.methodValue.toUpperCase() === "POST" ? "POST" : "PATCH",
-      headers: {
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-        "Accept": "text/vnd.turbo-stream.html"
-      },
-      body: formData
-    })
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+          "Accept": "text/vnd.turbo-stream.html, application/json"
+        },
+        body: formData
+      })
+
+      if (response.ok && isNewNote) {
+        const contentType = response.headers.get("content-type")
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json()
+          if (data.id) {
+            this.noteIdValue = String(data.id)
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Autosave failed:", error)
+    } finally {
+      this.saving = false
+    }
   }
 
   disconnect() {

@@ -4,14 +4,22 @@
        data-note-id="<%= note.id %>">
     <div class="note-actions absolute top-2 right-2 flex items-center gap-1">
       <% if note.pinned? %>
-        <%= button_to unpin_note_path(note), method: :patch, class: "p-1 rounded hover:bg-black/10 dark:hover:bg-white/10" do %>
-          <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+        <%= button_to unpin_note_path(note),
+            method: :patch,
+            class: "p-1 rounded hover:bg-black/10",
+            id: "unpin-note-#{note.id}",
+            aria: { label: t("notes.unpin") } do %>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
           </svg>
         <% end %>
       <% else %>
-        <%= button_to pin_note_path(note), method: :patch, class: "p-1 rounded hover:bg-black/10 dark:hover:bg-white/10" do %>
-          <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <%= button_to pin_note_path(note),
+            method: :patch,
+            class: "p-1 rounded hover:bg-black/10 opacity-60 hover:opacity-100",
+            id: "pin-note-#{note.id}",
+            aria: { label: t("notes.pin") } do %>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
           </svg>
         <% end %>
@@ -19,26 +27,31 @@
 
       <%= button_to note_path(note),
           method: :delete,
-          class: "p-1 rounded hover:bg-black/10 dark:hover:bg-white/10",
-          data: { turbo_confirm: t("notes.confirm_delete") } do %>
-        <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          class: "p-1 rounded hover:bg-black/10 opacity-60 hover:opacity-100",
+          id: "delete-note-#{note.id}",
+          data: { turbo_confirm: t("notes.confirm_delete") },
+          aria: { label: t("notes.delete") } do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
         </svg>
       <% end %>
 
-      <div class="drag-handle p-1 cursor-move" data-sortable-target="handle">
-        <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="drag-handle p-1 opacity-60 hover:opacity-100" data-sortable-target="handle">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
         </svg>
       </div>
     </div>
 
-    <%= link_to edit_note_path(note), class: "block", data: { turbo_frame: "modal" } do %>
+    <%= link_to edit_note_path(note),
+        class: "block no-underline",
+        id: "edit-note-#{note.id}",
+        data: { turbo_frame: "modal" } do %>
       <% if note.title.present? %>
-        <h3 class="font-medium text-gray-900 dark:text-white mb-2 pr-16"><%= note.title %></h3>
+        <h3 class="font-medium mb-2 pr-16" style="color: inherit;"><%= note.title %></h3>
       <% end %>
 
-      <div class="text-sm text-gray-600 dark:text-gray-300 line-clamp-6 prose prose-sm dark:prose-invert max-w-none">
+      <div class="text-sm line-clamp-6 prose prose-sm max-w-none" style="color: inherit;">
         <%= note.content %>
       </div>
 

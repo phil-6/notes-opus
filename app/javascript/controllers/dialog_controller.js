@@ -1,6 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  connect() {
+    document.body.classList.add("overflow-hidden")
+  }
+
+  disconnect() {
+    document.body.classList.remove("overflow-hidden")
+  }
+
   close() {
     this.element.remove()
     const modalFrame = document.getElementById("modal")
@@ -9,9 +17,7 @@ export default class extends Controller {
     }
   }
 
-  closeOnBackdrop(event) {
-    if (event.target === this.element) {
-      this.close()
-    }
+  stopPropagation(event) {
+    event.stopPropagation()
   }
 }

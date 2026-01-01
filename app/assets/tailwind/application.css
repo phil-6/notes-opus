@@ -1,88 +1,100 @@
 @import "tailwindcss";
 
-@theme {
-  /* Custom theme colors */
-  --color-note-slate-50: oklch(0.984 0.003 247.858);
-  --color-note-slate-100: oklch(0.968 0.007 247.896);
-  --color-note-gray-50: oklch(0.985 0.002 247.839);
-  --color-note-gray-100: oklch(0.967 0.003 264.542);
-}
-
 /* Note card background colors - light mode */
-.note-card-slate { background-color: var(--color-slate-100); }
-.note-card-gray { background-color: var(--color-gray-100); }
-.note-card-zinc { background-color: var(--color-zinc-100); }
-.note-card-neutral { background-color: var(--color-neutral-100); }
-.note-card-stone { background-color: var(--color-stone-100); }
-.note-card-red { background-color: var(--color-red-100); }
-.note-card-orange { background-color: var(--color-orange-100); }
-.note-card-amber { background-color: var(--color-amber-100); }
-.note-card-yellow { background-color: var(--color-yellow-100); }
-.note-card-lime { background-color: var(--color-lime-100); }
-.note-card-green { background-color: var(--color-green-100); }
-.note-card-emerald { background-color: var(--color-emerald-100); }
-.note-card-teal { background-color: var(--color-teal-100); }
-.note-card-cyan { background-color: var(--color-cyan-100); }
-.note-card-sky { background-color: var(--color-sky-100); }
-.note-card-blue { background-color: var(--color-blue-100); }
-.note-card-indigo { background-color: var(--color-indigo-100); }
-.note-card-violet { background-color: var(--color-violet-100); }
-.note-card-purple { background-color: var(--color-purple-100); }
-.note-card-fuchsia { background-color: var(--color-fuchsia-100); }
-.note-card-pink { background-color: var(--color-pink-100); }
-.note-card-rose { background-color: var(--color-rose-100); }
+.note-card-slate { background-color: var(--color-slate-100); color: var(--color-slate-900); }
+.note-card-gray { background-color: var(--color-gray-100); color: var(--color-gray-900); }
+.note-card-zinc { background-color: var(--color-zinc-100); color: var(--color-zinc-900); }
+.note-card-neutral { background-color: var(--color-neutral-100); color: var(--color-neutral-900); }
+.note-card-stone { background-color: var(--color-stone-100); color: var(--color-stone-900); }
+.note-card-red { background-color: var(--color-red-100); color: var(--color-red-900); }
+.note-card-orange { background-color: var(--color-orange-100); color: var(--color-orange-900); }
+.note-card-amber { background-color: var(--color-amber-100); color: var(--color-amber-900); }
+.note-card-yellow { background-color: var(--color-yellow-100); color: var(--color-yellow-900); }
+.note-card-lime { background-color: var(--color-lime-100); color: var(--color-lime-900); }
+.note-card-green { background-color: var(--color-green-100); color: var(--color-green-900); }
+.note-card-emerald { background-color: var(--color-emerald-100); color: var(--color-emerald-900); }
+.note-card-teal { background-color: var(--color-teal-100); color: var(--color-teal-900); }
+.note-card-cyan { background-color: var(--color-cyan-100); color: var(--color-cyan-900); }
+.note-card-sky { background-color: var(--color-sky-100); color: var(--color-sky-900); }
+.note-card-blue { background-color: var(--color-blue-100); color: var(--color-blue-900); }
+.note-card-indigo { background-color: var(--color-indigo-100); color: var(--color-indigo-900); }
+.note-card-violet { background-color: var(--color-violet-100); color: var(--color-violet-900); }
+.note-card-purple { background-color: var(--color-purple-100); color: var(--color-purple-900); }
+.note-card-fuchsia { background-color: var(--color-fuchsia-100); color: var(--color-fuchsia-900); }
+.note-card-pink { background-color: var(--color-pink-100); color: var(--color-pink-900); }
+.note-card-rose { background-color: var(--color-rose-100); color: var(--color-rose-900); }
 
-/* Note card background colors - dark mode */
-.dark .note-card-slate { background-color: var(--color-slate-800); }
-.dark .note-card-gray { background-color: var(--color-gray-800); }
-.dark .note-card-zinc { background-color: var(--color-zinc-800); }
-.dark .note-card-neutral { background-color: var(--color-neutral-800); }
-.dark .note-card-stone { background-color: var(--color-stone-800); }
-.dark .note-card-red { background-color: var(--color-red-800); }
-.dark .note-card-orange { background-color: var(--color-orange-800); }
-.dark .note-card-amber { background-color: var(--color-amber-800); }
-.dark .note-card-yellow { background-color: var(--color-yellow-800); }
-.dark .note-card-lime { background-color: var(--color-lime-800); }
-.dark .note-card-green { background-color: var(--color-green-800); }
-.dark .note-card-emerald { background-color: var(--color-emerald-800); }
-.dark .note-card-teal { background-color: var(--color-teal-800); }
-.dark .note-card-cyan { background-color: var(--color-cyan-800); }
-.dark .note-card-sky { background-color: var(--color-sky-800); }
-.dark .note-card-blue { background-color: var(--color-blue-800); }
-.dark .note-card-indigo { background-color: var(--color-indigo-800); }
-.dark .note-card-violet { background-color: var(--color-violet-800); }
-.dark .note-card-purple { background-color: var(--color-purple-800); }
-.dark .note-card-fuchsia { background-color: var(--color-fuchsia-800); }
-.dark .note-card-pink { background-color: var(--color-pink-800); }
-.dark .note-card-rose { background-color: var(--color-rose-800); }
+/* Note card background colors - dark mode with proper contrast */
+.dark .note-card-slate { background-color: var(--color-slate-700); color: var(--color-slate-100); }
+.dark .note-card-gray { background-color: var(--color-gray-700); color: var(--color-gray-100); }
+.dark .note-card-zinc { background-color: var(--color-zinc-700); color: var(--color-zinc-100); }
+.dark .note-card-neutral { background-color: var(--color-neutral-700); color: var(--color-neutral-100); }
+.dark .note-card-stone { background-color: var(--color-stone-700); color: var(--color-stone-100); }
+.dark .note-card-red { background-color: var(--color-red-700); color: var(--color-red-100); }
+.dark .note-card-orange { background-color: var(--color-orange-700); color: var(--color-orange-100); }
+.dark .note-card-amber { background-color: var(--color-amber-700); color: var(--color-amber-100); }
+.dark .note-card-yellow { background-color: var(--color-yellow-700); color: var(--color-yellow-100); }
+.dark .note-card-lime { background-color: var(--color-lime-700); color: var(--color-lime-100); }
+.dark .note-card-green { background-color: var(--color-green-700); color: var(--color-green-100); }
+.dark .note-card-emerald { background-color: var(--color-emerald-700); color: var(--color-emerald-100); }
+.dark .note-card-teal { background-color: var(--color-teal-700); color: var(--color-teal-100); }
+.dark .note-card-cyan { background-color: var(--color-cyan-700); color: var(--color-cyan-100); }
+.dark .note-card-sky { background-color: var(--color-sky-700); color: var(--color-sky-100); }
+.dark .note-card-blue { background-color: var(--color-blue-700); color: var(--color-blue-100); }
+.dark .note-card-indigo { background-color: var(--color-indigo-700); color: var(--color-indigo-100); }
+.dark .note-card-violet { background-color: var(--color-violet-700); color: var(--color-violet-100); }
+.dark .note-card-purple { background-color: var(--color-purple-700); color: var(--color-purple-100); }
+.dark .note-card-fuchsia { background-color: var(--color-fuchsia-700); color: var(--color-fuchsia-100); }
+.dark .note-card-pink { background-color: var(--color-pink-700); color: var(--color-pink-100); }
+.dark .note-card-rose { background-color: var(--color-rose-700); color: var(--color-rose-100); }
 
-/* Color picker swatches */
+/* Color picker swatch base styles */
 .color-swatch {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 9999px;
   cursor: pointer;
-  border-width: 2px;
-  border-color: transparent;
-  transition-property: color, background-color, border-color;
-  transition-duration: 150ms;
+  border: 2px solid transparent;
+  transition: border-color 150ms, transform 150ms;
 }
 
 .color-swatch:hover {
-  border-color: var(--color-gray-400);
-}
-
-.dark .color-swatch:hover {
-  border-color: var(--color-gray-500);
+  transform: scale(1.1);
 }
 
 .color-swatch.selected {
   border-color: var(--color-gray-800);
+  box-shadow: 0 0 0 2px white;
 }
 
 .dark .color-swatch.selected {
-  border-color: var(--color-gray-200);
+  border-color: var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-gray-800);
 }
+
+/* Color swatch colors */
+.color-swatch-slate { background-color: var(--color-slate-400); }
+.color-swatch-gray { background-color: var(--color-gray-400); }
+.color-swatch-zinc { background-color: var(--color-zinc-400); }
+.color-swatch-neutral { background-color: var(--color-neutral-400); }
+.color-swatch-stone { background-color: var(--color-stone-400); }
+.color-swatch-red { background-color: var(--color-red-400); }
+.color-swatch-orange { background-color: var(--color-orange-400); }
+.color-swatch-amber { background-color: var(--color-amber-400); }
+.color-swatch-yellow { background-color: var(--color-yellow-400); }
+.color-swatch-lime { background-color: var(--color-lime-400); }
+.color-swatch-green { background-color: var(--color-green-400); }
+.color-swatch-emerald { background-color: var(--color-emerald-400); }
+.color-swatch-teal { background-color: var(--color-teal-400); }
+.color-swatch-cyan { background-color: var(--color-cyan-400); }
+.color-swatch-sky { background-color: var(--color-sky-400); }
+.color-swatch-blue { background-color: var(--color-blue-400); }
+.color-swatch-indigo { background-color: var(--color-indigo-400); }
+.color-swatch-violet { background-color: var(--color-violet-400); }
+.color-swatch-purple { background-color: var(--color-purple-400); }
+.color-swatch-fuchsia { background-color: var(--color-fuchsia-400); }
+.color-swatch-pink { background-color: var(--color-pink-400); }
+.color-swatch-rose { background-color: var(--color-rose-400); }
 
 /* Form styles */
 .form-input {
@@ -92,18 +104,32 @@
   border: 1px solid var(--color-gray-300);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   padding: 0.5rem 0.75rem;
+  background-color: white;
+  color: var(--color-gray-900);
 }
 
 .form-input:focus {
   border-color: var(--color-blue-500);
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-blue-500);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
 }
 
 .dark .form-input {
-  background-color: var(--color-gray-800);
+  background-color: var(--color-gray-700);
   border-color: var(--color-gray-600);
   color: white;
+}
+
+.dark .form-input:focus {
+  border-color: var(--color-blue-400);
+}
+
+.form-input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.dark .form-input::placeholder {
+  color: var(--color-gray-500);
 }
 
 .form-label {
@@ -122,75 +148,107 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   border: 1px solid transparent;
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: 0.375rem;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  transition-property: color, background-color, border-color;
-  transition-duration: 150ms;
+  transition: all 150ms;
+  cursor: pointer;
 }
 
 .btn:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-blue-500);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
 }
 
-.btn-primary {
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary,
+.btn.btn-primary {
   color: white;
   background-color: var(--color-blue-600);
+  border-color: var(--color-blue-600);
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn.btn-primary:hover {
   background-color: var(--color-blue-700);
+  border-color: var(--color-blue-700);
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn.btn-secondary {
   color: var(--color-gray-700);
   background-color: white;
   border-color: var(--color-gray-300);
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn.btn-secondary:hover {
   background-color: var(--color-gray-50);
 }
 
-.dark .btn-secondary {
+.dark .btn-secondary,
+.dark .btn.btn-secondary {
   background-color: var(--color-gray-700);
   color: var(--color-gray-200);
   border-color: var(--color-gray-600);
 }
 
-.dark .btn-secondary:hover {
+.dark .btn-secondary:hover,
+.dark .btn.btn-secondary:hover {
   background-color: var(--color-gray-600);
 }
 
-.btn-danger {
+.btn-danger,
+.btn.btn-danger {
   color: white;
   background-color: var(--color-red-600);
+  border-color: var(--color-red-600);
 }
 
-.btn-danger:hover {
+.btn-danger:hover,
+.btn.btn-danger:hover {
   background-color: var(--color-red-700);
+  border-color: var(--color-red-700);
 }
 
-/* Modal dialog styles */
-dialog {
-  border-radius: 0.5rem;
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+/* Dark mode toggle switch */
+.dark-mode-toggle {
+  position: relative;
+  width: 2.5rem;
+  height: 1.25rem;
+  background-color: var(--color-gray-300);
+  border-radius: 9999px;
+  transition: background-color 150ms;
+  cursor: pointer;
+}
+
+.dark-mode-toggle::after {
+  content: "";
+  position: absolute;
+  left: 0.125rem;
+  top: 0.125rem;
+  width: 1rem;
+  height: 1rem;
   background-color: white;
-  padding: 0;
-  max-width: 42rem;
-  width: 100%;
+  border-radius: 9999px;
+  transition: transform 150ms;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
 }
 
-.dark dialog {
-  background-color: var(--color-gray-800);
+.dark .dark-mode-toggle {
+  background-color: var(--color-blue-600);
 }
 
-dialog::backdrop {
-  background-color: rgb(0 0 0 / 0.5);
+.dark .dark-mode-toggle::after {
+  transform: translateX(1.25rem);
 }
 
 /* Tag badge styles */
@@ -202,11 +260,11 @@ dialog::backdrop {
   font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--color-gray-200);
-  color: var(--color-gray-800);
+  color: var(--color-gray-700);
 }
 
 .dark .tag-badge {
-  background-color: var(--color-gray-700);
+  background-color: var(--color-gray-600);
   color: var(--color-gray-200);
 }
 
@@ -217,19 +275,34 @@ trix-editor {
   border-radius: 0.375rem;
   border: 1px solid var(--color-gray-300);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  min-height: 8rem;
-  padding: 0.5rem;
+  min-height: 12rem;
+  padding: 0.75rem;
+  background-color: white;
+  color: var(--color-gray-900);
 }
 
 trix-editor:focus {
   border-color: var(--color-blue-500);
   outline: none;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
+}
+
+trix-editor[placeholder]:empty::before {
+  color: var(--color-gray-400);
 }
 
 .dark trix-editor {
-  background-color: var(--color-gray-800);
+  background-color: var(--color-gray-700);
   border-color: var(--color-gray-600);
   color: white;
+}
+
+.dark trix-editor:focus {
+  border-color: var(--color-blue-400);
+}
+
+.dark trix-editor[placeholder]:empty::before {
+  color: var(--color-gray-500);
 }
 
 trix-toolbar {
@@ -238,16 +311,30 @@ trix-toolbar {
   border-top-right-radius: 0.375rem;
   border: 1px solid var(--color-gray-300);
   border-bottom: none;
+  padding: 0.25rem;
 }
 
 .dark trix-toolbar {
-  background-color: var(--color-gray-700);
+  background-color: var(--color-gray-800);
   border-color: var(--color-gray-600);
 }
 
+trix-toolbar .trix-button-group {
+  border-color: var(--color-gray-300);
+}
+
+.dark trix-toolbar .trix-button-group {
+  border-color: var(--color-gray-600);
+}
+
+trix-toolbar .trix-button {
+  background-color: transparent;
+  border: none;
+}
+
 .dark trix-toolbar .trix-button {
-  background-color: var(--color-gray-700);
-  color: var(--color-gray-200);
+  color: var(--color-gray-300);
+  filter: invert(0.7);
 }
 
 trix-toolbar .trix-button.trix-active {
@@ -258,11 +345,18 @@ trix-toolbar .trix-button.trix-active {
   background-color: var(--color-gray-600);
 }
 
+trix-toolbar .trix-button:hover {
+  background-color: var(--color-gray-100);
+}
+
+.dark trix-toolbar .trix-button:hover {
+  background-color: var(--color-gray-700);
+}
+
 /* Note card hover actions */
 .note-actions {
   opacity: 0;
-  transition-property: opacity;
-  transition-duration: 150ms;
+  transition: opacity 150ms;
 }
 
 .group:hover .note-actions {
@@ -271,12 +365,16 @@ trix-toolbar .trix-button.trix-active {
 
 /* Drag handle */
 .drag-handle {
-  cursor: move;
+  cursor: grab;
   color: var(--color-gray-400);
 }
 
 .drag-handle:hover {
   color: var(--color-gray-600);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
 }
 
 .dark .drag-handle {
@@ -285,4 +383,88 @@ trix-toolbar .trix-button.trix-active {
 
 .dark .drag-handle:hover {
   color: var(--color-gray-300);
+}
+
+/* Flash messages */
+.flash-notice {
+  background-color: var(--color-green-50);
+  border: 1px solid var(--color-green-200);
+  color: var(--color-green-800);
+}
+
+.flash-alert {
+  background-color: var(--color-red-50);
+  border: 1px solid var(--color-red-200);
+  color: var(--color-red-800);
+}
+
+.dark .flash-notice {
+  background-color: var(--color-green-900);
+  border-color: var(--color-green-700);
+  color: var(--color-green-100);
+}
+
+.dark .flash-alert {
+  background-color: var(--color-red-900);
+  border-color: var(--color-red-700);
+  color: var(--color-red-100);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-gray-300);
+  background-color: white;
+  cursor: pointer;
+  accent-color: var(--color-blue-600);
+}
+
+.dark input[type="checkbox"] {
+  background-color: var(--color-gray-700);
+  border-color: var(--color-gray-500);
+}
+
+/* Links */
+a {
+  color: var(--color-blue-600);
+}
+
+a:hover {
+  color: var(--color-blue-700);
+}
+
+.dark a {
+  color: var(--color-blue-400);
+}
+
+.dark a:hover {
+  color: var(--color-blue-300);
+}
+
+/* Prose overrides for note content */
+.prose {
+  color: inherit;
+}
+
+.prose a {
+  color: var(--color-blue-600);
+}
+
+.dark .prose a {
+  color: var(--color-blue-400);
+}
+
+.prose strong {
+  color: inherit;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: inherit;
+}
+
+/* Body scroll lock for modals */
+body.overflow-hidden {
+  overflow: hidden;
 }

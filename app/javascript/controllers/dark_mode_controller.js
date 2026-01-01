@@ -1,11 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox"]
-
   toggle() {
-    const isDark = this.checkboxTarget.checked
+    const isDark = !document.documentElement.classList.contains("dark")
     document.documentElement.classList.toggle("dark", isDark)
+
+    const toggleButton = this.element.querySelector("[role='switch']")
+    if (toggleButton) {
+      toggleButton.setAttribute("aria-checked", isDark)
+    }
 
     fetch("/users/preferences", {
       method: "PATCH",
