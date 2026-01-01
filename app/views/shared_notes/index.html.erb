@@ -5,16 +5,16 @@
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       <% @shared_notes.each do |note| %>
         <div class="group relative rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow <%= note_card_class(note.color) %>">
-          <%= link_to edit_note_path(note), class: "block", data: { turbo_frame: "modal" } do %>
-            <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+          <%= link_to edit_note_path(note), class: "block no-underline", data: { turbo_frame: "modal" } do %>
+            <div class="text-xs opacity-60 mb-2">
               <%= t("shared_notes.shared_by", name: note.user.display_name) %>
             </div>
 
             <% if note.title.present? %>
-              <h3 class="font-medium text-gray-900 dark:text-white mb-2"><%= note.title %></h3>
+              <h3 class="font-medium mb-2" style="color: inherit;"><%= note.title %></h3>
             <% end %>
 
-            <div class="text-sm text-gray-600 dark:text-gray-300 line-clamp-6 prose prose-sm dark:prose-invert max-w-none">
+            <div class="text-sm line-clamp-6 prose prose-sm max-w-none" style="color: inherit;">
               <%= note.content %>
             </div>
 

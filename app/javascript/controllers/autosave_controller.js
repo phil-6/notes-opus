@@ -11,9 +11,39 @@ export default class extends Controller {
   connect() {
     this.timeout = null
     this.saving = false
+    this.formSubmitting = false
+
+    // Listen for form submission to prevent autosave conflicts
+    if (this.hasFormTarget) {
+      this.formTarget.addEventListener("submit", this.handleFormSubmit.bind(this))
+    }
+  }
+
+  handleFormSubmit(event) {
+    // Mark that form is being submitted normally
+    this.formSubmitting = true
+    clearTimeout(this.timeout)
+
+    // If we have a noteId, update the form action to use the correct URL
+    if (this.noteIdValue) {
+      const form = this.formTarget
+      form.action = this.urlValue.replace(/\/notes$/, `/notes/${this.noteIdValue}`)
+      // Change method to PATCH using hidden field
+      let methodField = form.querySelector('input[name="_method"]')
+      if (!methodField) {
+        methodField = document.createElement("input")
+        methodField.type = "hidden"
+        methodField.name = "_method"
+        form.appendChild(methodField)
+      }
+      methodField.value = "patch"
+    }
   }
 
   save() {
+    // Don't autosave if form is being submitted
+    if (this.formSubmitting) return
+
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.submitForm()
@@ -21,7 +51,7 @@ export default class extends Controller {
   }
 
   async submitForm() {
-    if (!this.hasFormTarget || this.saving) return
+    if (!this.hasFormTarget || this.saving || this.formSubmitting) return
 
     this.saving = true
     const formData = new FormData(this.formTarget)
@@ -34,7 +64,7 @@ export default class extends Controller {
         method: method,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-          "Accept": "text/vnd.turbo-stream.html, application/json"
+          "Accept": "application/json"
         },
         body: formData
       })
@@ -57,5 +87,8 @@ export default class extends Controller {
 
   disconnect() {
     clearTimeout(this.timeout)
+    if (this.hasFormTarget) {
+      this.formTarget.removeEventListener("submit", this.handleFormSubmit.bind(this))
+    }
   }
 }

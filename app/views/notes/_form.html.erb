@@ -110,13 +110,13 @@
         <div class="mt-6 flex justify-end gap-3">
           <button type="button"
                   id="cancel-button"
-                  class="btn btn-secondary"
+                  class="btn-secondary"
                   data-action="click->dialog#close">
             <%= t("common.cancel") %>
           </button>
           <%= form.submit note.new_record? ? t("notes.form.create") : t("notes.form.save"),
               id: "submit-button",
-              class: "btn btn-primary" %>
+              class: "btn-primary" %>
         </div>
       <% end %>
     </div>

@@ -1,21 +1,41 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
-
-  <h1 class="font-bold text-4xl">Update your password</h1>
-
-  <%= form_with url: password_path(params[:token]), method: :put, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= t("application.name") %></h1>
+      <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("passwords.edit.title") %></h2>
     </div>
 
-    <div class="my-5">
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+    <%= form_with url: password_path(params[:token]), method: :put, id: "password-update-form", class: "mt-8 space-y-6" do |form| %>
+      <div class="space-y-4">
+        <div>
+          <%= form.label :password, t("passwords.edit.password"), class: "form-label" %>
+          <%= form.password_field :password,
+                                  id: "password_new_password",
+                                  required: true,
+                                  autofocus: true,
+                                  autocomplete: "new-password",
+                                  placeholder: t("passwords.edit.password_placeholder"),
+                                  minlength: 8,
+                                  maxlength: 72,
+                                  class: "form-input mt-1" %>
+        </div>
 
-    <div class="inline">
-      <%= form.submit "Save", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-    </div>
-  <% end %>
+        <div>
+          <%= form.label :password_confirmation, t("passwords.edit.password_confirmation"), class: "form-label" %>
+          <%= form.password_field :password_confirmation,
+                                  id: "password_confirmation",
+                                  required: true,
+                                  autocomplete: "new-password",
+                                  placeholder: t("passwords.edit.password_confirmation_placeholder"),
+                                  minlength: 8,
+                                  maxlength: 72,
+                                  class: "form-input mt-1" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit t("passwords.edit.submit"), id: "password-update-submit", class: "btn-primary w-full" %>
+      </div>
+    <% end %>
+  </div>
 </div>

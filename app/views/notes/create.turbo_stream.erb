@@ -2,4 +2,6 @@
   <%= render "note_card", note: @note %>
 <% end %>
 
+<%= turbo_stream.remove "empty-state" %>
+
 <%= turbo_stream.update "modal", "" %>

@@ -119,4 +119,83 @@ class NotesTest < ApplicationSystemTestCase
     assert_text "Note created successfully"
     assert_equal "blue", Note.last.color
   end
+
+  test "editing a note closes modal after save" do
+    sign_in_as(@user)
+    note = notes(:alice_note)
+
+    find("#edit-note-#{note.id}").click
+
+    within "[role='dialog']" do
+      fill_in "note_title", with: "Updated via Edit"
+      click_button "Save"
+    end
+
+    assert_no_selector "[role='dialog']"
+  end
+
+  test "creating note when empty state exists removes empty state" do
+    # Delete all notes first
+    @user.notes.destroy_all
+
+    sign_in_as(@user)
+
+    assert_text "No notes yet"
+
+    click_link "New Note"
+
+    within "[role='dialog']" do
+      fill_in "note_title", with: "First Note"
+      click_button "Create Note"
+    end
+
+    assert_text "Note created successfully"
+    assert_no_text "No notes yet"
+    assert_text "First Note"
+  end
+
+  test "pinning a note updates the page immediately" do
+    sign_in_as(@user)
+    note = notes(:alice_note)
+
+    assert_no_selector "h2", text: "Pinned"
+
+    find("#pin-note-#{note.id}").click
+
+    assert_selector "h2", text: "Pinned"
+    within "#pinned-notes" do
+      assert_selector "[data-note-id='#{note.id}']"
+    end
+  end
+
+  test "unpinning a note updates the page immediately" do
+    note = notes(:alice_note)
+    note.update!(pinned: true)
+
+    sign_in_as(@user)
+
+    assert_selector "h2", text: "Pinned"
+
+    find("#unpin-note-#{note.id}").click
+
+    assert_no_selector "h2", text: "Pinned"
+    within "#unpinned-notes" do
+      assert_selector "[data-note-id='#{note.id}']"
+    end
+  end
+
+  test "user can navigate to version history" do
+    sign_in_as(@user)
+    note = notes(:alice_note)
+    # Create a version first
+    note.versions.create!(user: @user, title: note.title, content: "Old content")
+
+    find("#edit-note-#{note.id}").click
+
+    within "[role='dialog']" do
+      click_link "View history"
+    end
+
+    assert_selector "h1", text: "Version History"
+  end
 end

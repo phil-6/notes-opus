@@ -25,28 +25,28 @@
 .note-card-rose { background-color: var(--color-rose-100); color: var(--color-rose-900); }
 
 /* Note card background colors - dark mode with proper contrast */
-.dark .note-card-slate { background-color: var(--color-slate-700); color: var(--color-slate-100); }
-.dark .note-card-gray { background-color: var(--color-gray-700); color: var(--color-gray-100); }
-.dark .note-card-zinc { background-color: var(--color-zinc-700); color: var(--color-zinc-100); }
-.dark .note-card-neutral { background-color: var(--color-neutral-700); color: var(--color-neutral-100); }
-.dark .note-card-stone { background-color: var(--color-stone-700); color: var(--color-stone-100); }
-.dark .note-card-red { background-color: var(--color-red-700); color: var(--color-red-100); }
-.dark .note-card-orange { background-color: var(--color-orange-700); color: var(--color-orange-100); }
-.dark .note-card-amber { background-color: var(--color-amber-700); color: var(--color-amber-100); }
-.dark .note-card-yellow { background-color: var(--color-yellow-700); color: var(--color-yellow-100); }
-.dark .note-card-lime { background-color: var(--color-lime-700); color: var(--color-lime-100); }
-.dark .note-card-green { background-color: var(--color-green-700); color: var(--color-green-100); }
-.dark .note-card-emerald { background-color: var(--color-emerald-700); color: var(--color-emerald-100); }
-.dark .note-card-teal { background-color: var(--color-teal-700); color: var(--color-teal-100); }
-.dark .note-card-cyan { background-color: var(--color-cyan-700); color: var(--color-cyan-100); }
-.dark .note-card-sky { background-color: var(--color-sky-700); color: var(--color-sky-100); }
-.dark .note-card-blue { background-color: var(--color-blue-700); color: var(--color-blue-100); }
-.dark .note-card-indigo { background-color: var(--color-indigo-700); color: var(--color-indigo-100); }
-.dark .note-card-violet { background-color: var(--color-violet-700); color: var(--color-violet-100); }
-.dark .note-card-purple { background-color: var(--color-purple-700); color: var(--color-purple-100); }
-.dark .note-card-fuchsia { background-color: var(--color-fuchsia-700); color: var(--color-fuchsia-100); }
-.dark .note-card-pink { background-color: var(--color-pink-700); color: var(--color-pink-100); }
-.dark .note-card-rose { background-color: var(--color-rose-700); color: var(--color-rose-100); }
+html.dark .note-card-slate { background-color: var(--color-slate-700); color: var(--color-slate-100); }
+html.dark .note-card-gray { background-color: var(--color-gray-700); color: var(--color-gray-100); }
+html.dark .note-card-zinc { background-color: var(--color-zinc-700); color: var(--color-zinc-100); }
+html.dark .note-card-neutral { background-color: var(--color-neutral-700); color: var(--color-neutral-100); }
+html.dark .note-card-stone { background-color: var(--color-stone-700); color: var(--color-stone-100); }
+html.dark .note-card-red { background-color: var(--color-red-700); color: var(--color-red-100); }
+html.dark .note-card-orange { background-color: var(--color-orange-700); color: var(--color-orange-100); }
+html.dark .note-card-amber { background-color: var(--color-amber-700); color: var(--color-amber-100); }
+html.dark .note-card-yellow { background-color: var(--color-yellow-700); color: var(--color-yellow-100); }
+html.dark .note-card-lime { background-color: var(--color-lime-700); color: var(--color-lime-100); }
+html.dark .note-card-green { background-color: var(--color-green-700); color: var(--color-green-100); }
+html.dark .note-card-emerald { background-color: var(--color-emerald-700); color: var(--color-emerald-100); }
+html.dark .note-card-teal { background-color: var(--color-teal-700); color: var(--color-teal-100); }
+html.dark .note-card-cyan { background-color: var(--color-cyan-700); color: var(--color-cyan-100); }
+html.dark .note-card-sky { background-color: var(--color-sky-700); color: var(--color-sky-100); }
+html.dark .note-card-blue { background-color: var(--color-blue-700); color: var(--color-blue-100); }
+html.dark .note-card-indigo { background-color: var(--color-indigo-700); color: var(--color-indigo-100); }
+html.dark .note-card-violet { background-color: var(--color-violet-700); color: var(--color-violet-100); }
+html.dark .note-card-purple { background-color: var(--color-purple-700); color: var(--color-purple-100); }
+html.dark .note-card-fuchsia { background-color: var(--color-fuchsia-700); color: var(--color-fuchsia-100); }
+html.dark .note-card-pink { background-color: var(--color-pink-700); color: var(--color-pink-100); }
+html.dark .note-card-rose { background-color: var(--color-rose-700); color: var(--color-rose-100); }
 
 /* Color picker swatch base styles */
 .color-swatch {
@@ -67,8 +67,8 @@
   box-shadow: 0 0 0 2px white;
 }
 
-.dark .color-swatch.selected {
-  border-color: var(--color-white);
+html.dark .color-swatch.selected {
+  border-color: white;
   box-shadow: 0 0 0 2px var(--color-gray-800);
 }
 
@@ -114,13 +114,13 @@
   box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
 }
 
-.dark .form-input {
+html.dark .form-input {
   background-color: var(--color-gray-700);
   border-color: var(--color-gray-600);
   color: white;
 }
 
-.dark .form-input:focus {
+html.dark .form-input:focus {
   border-color: var(--color-blue-400);
 }
 
@@ -128,7 +128,7 @@
   color: var(--color-gray-400);
 }
 
-.dark .form-input::placeholder {
+html.dark .form-input::placeholder {
   color: var(--color-gray-500);
 }
 
@@ -139,116 +139,155 @@
   color: var(--color-gray-700);
 }
 
-.dark .form-label {
+html.dark .form-label {
   color: var(--color-gray-300);
 }
 
-/* Button styles */
-.btn {
+/* Button base styles - standalone buttons use these classes directly */
+.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  border: 1px solid transparent;
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  background-color: var(--color-blue-600);
+  border: 1px solid var(--color-blue-600);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   transition: all 150ms;
-  cursor: pointer;
 }
 
-.btn:focus {
+.btn-primary:hover {
+  background-color: var(--color-blue-700);
+  border-color: var(--color-blue-700);
+  color: white;
+}
+
+.btn-primary:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
 }
 
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-primary,
-.btn.btn-primary {
-  color: white;
-  background-color: var(--color-blue-600);
-  border-color: var(--color-blue-600);
-}
-
-.btn-primary:hover,
-.btn.btn-primary:hover {
-  background-color: var(--color-blue-700);
-  border-color: var(--color-blue-700);
-}
-
-.btn-secondary,
-.btn.btn-secondary {
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
   color: var(--color-gray-700);
   background-color: white;
-  border-color: var(--color-gray-300);
+  border: 1px solid var(--color-gray-300);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: all 150ms;
 }
 
-.btn-secondary:hover,
-.btn.btn-secondary:hover {
+.btn-secondary:hover {
   background-color: var(--color-gray-50);
 }
 
-.dark .btn-secondary,
-.dark .btn.btn-secondary {
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
+}
+
+html.dark .btn-secondary {
   background-color: var(--color-gray-700);
   color: var(--color-gray-200);
   border-color: var(--color-gray-600);
 }
 
-.dark .btn-secondary:hover,
-.dark .btn.btn-secondary:hover {
+html.dark .btn-secondary:hover {
   background-color: var(--color-gray-600);
 }
 
-.btn-danger,
-.btn.btn-danger {
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
   color: white;
   background-color: var(--color-red-600);
-  border-color: var(--color-red-600);
+  border: 1px solid var(--color-red-600);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: all 150ms;
 }
 
-.btn-danger:hover,
-.btn.btn-danger:hover {
+.btn-danger:hover {
   background-color: var(--color-red-700);
   border-color: var(--color-red-700);
 }
 
-/* Dark mode toggle switch */
-.dark-mode-toggle {
-  position: relative;
-  width: 2.5rem;
-  height: 1.25rem;
-  background-color: var(--color-gray-300);
-  border-radius: 9999px;
-  transition: background-color 150ms;
+.btn-danger:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(239 68 68 / 0.3);
+}
+
+/* Theme toggle button - sun/moon */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  color: var(--color-gray-500);
+  transition: all 150ms;
 }
 
-.dark-mode-toggle::after {
-  content: "";
-  position: absolute;
-  left: 0.125rem;
-  top: 0.125rem;
-  width: 1rem;
-  height: 1rem;
-  background-color: white;
-  border-radius: 9999px;
-  transition: transform 150ms;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+.theme-toggle:hover {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-700);
 }
 
-.dark .dark-mode-toggle {
-  background-color: var(--color-blue-600);
+html.dark .theme-toggle {
+  color: var(--color-gray-400);
 }
 
-.dark .dark-mode-toggle::after {
-  transform: translateX(1.25rem);
+html.dark .theme-toggle:hover {
+  background-color: var(--color-gray-700);
+  color: var(--color-gray-200);
+}
+
+.theme-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Sun icon - visible in dark mode */
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+html.dark .theme-toggle .sun-icon {
+  display: block;
+}
+
+/* Moon icon - visible in light mode */
+.theme-toggle .moon-icon {
+  display: block;
+}
+
+html.dark .theme-toggle .moon-icon {
+  display: none;
 }
 
 /* Tag badge styles */
@@ -263,12 +302,66 @@
   color: var(--color-gray-700);
 }
 
-.dark .tag-badge {
+html.dark .tag-badge {
   background-color: var(--color-gray-600);
   color: var(--color-gray-200);
 }
 
 /* ActionText/Trix editor styles */
+trix-toolbar {
+  background-color: var(--color-gray-50);
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  border: 1px solid var(--color-gray-300);
+  border-bottom: none;
+  padding: 0.25rem;
+}
+
+html.dark trix-toolbar {
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+}
+
+trix-toolbar .trix-button-group {
+  border-color: var(--color-gray-300);
+}
+
+html.dark trix-toolbar .trix-button-group {
+  border-color: var(--color-gray-600);
+}
+
+trix-toolbar .trix-button {
+  background-color: transparent;
+  border: none;
+}
+
+html.dark trix-toolbar .trix-button {
+  filter: invert(0.7);
+}
+
+trix-toolbar .trix-button.trix-active {
+  background-color: var(--color-gray-200);
+}
+
+html.dark trix-toolbar .trix-button.trix-active {
+  background-color: var(--color-gray-600);
+}
+
+trix-toolbar .trix-button:hover {
+  background-color: var(--color-gray-100);
+}
+
+html.dark trix-toolbar .trix-button:hover {
+  background-color: var(--color-gray-700);
+}
+
+/* Trix editor - remove top border radius when following toolbar */
+trix-toolbar + trix-editor {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+}
+
 trix-editor {
   display: block;
   width: 100%;
@@ -291,66 +384,18 @@ trix-editor[placeholder]:empty::before {
   color: var(--color-gray-400);
 }
 
-.dark trix-editor {
+html.dark trix-editor {
   background-color: var(--color-gray-700);
   border-color: var(--color-gray-600);
   color: white;
 }
 
-.dark trix-editor:focus {
+html.dark trix-editor:focus {
   border-color: var(--color-blue-400);
 }
 
-.dark trix-editor[placeholder]:empty::before {
+html.dark trix-editor[placeholder]:empty::before {
   color: var(--color-gray-500);
-}
-
-trix-toolbar {
-  background-color: var(--color-gray-50);
-  border-top-left-radius: 0.375rem;
-  border-top-right-radius: 0.375rem;
-  border: 1px solid var(--color-gray-300);
-  border-bottom: none;
-  padding: 0.25rem;
-}
-
-.dark trix-toolbar {
-  background-color: var(--color-gray-800);
-  border-color: var(--color-gray-600);
-}
-
-trix-toolbar .trix-button-group {
-  border-color: var(--color-gray-300);
-}
-
-.dark trix-toolbar .trix-button-group {
-  border-color: var(--color-gray-600);
-}
-
-trix-toolbar .trix-button {
-  background-color: transparent;
-  border: none;
-}
-
-.dark trix-toolbar .trix-button {
-  color: var(--color-gray-300);
-  filter: invert(0.7);
-}
-
-trix-toolbar .trix-button.trix-active {
-  background-color: var(--color-gray-200);
-}
-
-.dark trix-toolbar .trix-button.trix-active {
-  background-color: var(--color-gray-600);
-}
-
-trix-toolbar .trix-button:hover {
-  background-color: var(--color-gray-100);
-}
-
-.dark trix-toolbar .trix-button:hover {
-  background-color: var(--color-gray-700);
 }
 
 /* Note card hover actions */
@@ -377,11 +422,11 @@ trix-toolbar .trix-button:hover {
   cursor: grabbing;
 }
 
-.dark .drag-handle {
+html.dark .drag-handle {
   color: var(--color-gray-500);
 }
 
-.dark .drag-handle:hover {
+html.dark .drag-handle:hover {
   color: var(--color-gray-300);
 }
 
@@ -398,13 +443,13 @@ trix-toolbar .trix-button:hover {
   color: var(--color-red-800);
 }
 
-.dark .flash-notice {
+html.dark .flash-notice {
   background-color: var(--color-green-900);
   border-color: var(--color-green-700);
   color: var(--color-green-100);
 }
 
-.dark .flash-alert {
+html.dark .flash-alert {
   background-color: var(--color-red-900);
   border-color: var(--color-red-700);
   color: var(--color-red-100);
@@ -421,26 +466,14 @@ input[type="checkbox"] {
   accent-color: var(--color-blue-600);
 }
 
-.dark input[type="checkbox"] {
+html.dark input[type="checkbox"] {
   background-color: var(--color-gray-700);
   border-color: var(--color-gray-500);
 }
 
-/* Links */
-a {
-  color: var(--color-blue-600);
-}
-
-a:hover {
-  color: var(--color-blue-700);
-}
-
-.dark a {
-  color: var(--color-blue-400);
-}
-
-.dark a:hover {
-  color: var(--color-blue-300);
+/* Link reset for buttons styled as links */
+a.no-underline {
+  text-decoration: none;
 }
 
 /* Prose overrides for note content */
@@ -452,7 +485,7 @@ a:hover {
   color: var(--color-blue-600);
 }
 
-.dark .prose a {
+html.dark .prose a {
   color: var(--color-blue-400);
 }
 

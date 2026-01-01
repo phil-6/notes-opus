@@ -69,17 +69,19 @@ class NotesController < ApplicationController
 
   def pin
     @note.update!(pinned: true, position: next_pinned_position)
+    load_notes_for_list
     respond_to do |format|
       format.html { redirect_to notes_path, status: :see_other }
-      format.turbo_stream { redirect_to notes_path, status: :see_other }
+      format.turbo_stream
     end
   end
 
   def unpin
     @note.update!(pinned: false, position: next_position)
+    load_notes_for_list
     respond_to do |format|
       format.html { redirect_to notes_path, status: :see_other }
-      format.turbo_stream { redirect_to notes_path, status: :see_other }
+      format.turbo_stream
     end
   end
 
@@ -134,5 +136,10 @@ class NotesController < ApplicationController
       title: @note.title,
       content: @note.content.to_plain_text
     )
+  end
+
+  def load_notes_for_list
+    @pinned_notes = current_user.notes.pinned.includes(:tags, :rich_text_content)
+    @unpinned_notes = current_user.notes.unpinned.includes(:tags, :rich_text_content)
   end
 end

@@ -1,17 +1,33 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
-
-  <h1 class="font-bold text-4xl">Forgot your password?</h1>
-
-  <%= form_with url: passwords_path, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= t("application.name") %></h1>
+      <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("passwords.new.title") %></h2>
     </div>
 
-    <div class="inline">
-      <%= form.submit "Email reset instructions", class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-    </div>
-  <% end %>
+    <%= form_with url: passwords_path, id: "password-reset-form", class: "mt-8 space-y-6" do |form| %>
+      <div class="space-y-4">
+        <div>
+          <%= form.label :email_address, t("passwords.new.email"), class: "form-label" %>
+          <%= form.email_field :email_address,
+                               id: "password_email_address",
+                               required: true,
+                               autofocus: true,
+                               autocomplete: "email",
+                               placeholder: t("passwords.new.email_placeholder"),
+                               value: params[:email_address],
+                               class: "form-input mt-1" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit t("passwords.new.submit"), id: "password-submit", class: "btn-primary w-full" %>
+      </div>
+
+      <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+        <%= link_to t("passwords.new.back_to_sign_in"), new_session_path,
+            class: "text-blue-600 hover:text-blue-500 dark:text-blue-400 font-medium" %>
+      </div>
+    <% end %>
+  </div>
 </div>

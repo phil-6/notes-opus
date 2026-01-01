@@ -6,47 +6,9 @@
         data: { turbo_frame: "modal" } %>
   </div>
 
-  <% if @pinned_notes.any? %>
-    <section class="mb-8">
-      <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3"><%= t("notes.index.pinned") %></h2>
-      <div id="pinned-notes"
-           class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-           data-controller="sortable"
-           data-sortable-url-value="<%= update_position_note_path(":id") %>"
-           data-sortable-section-value="pinned">
-        <%= render partial: "notes/note_card", collection: @pinned_notes, as: :note %>
-      </div>
-    </section>
-  <% end %>
-
-  <section>
-    <% if @pinned_notes.any? %>
-      <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3"><%= t("notes.index.other") %></h2>
-    <% end %>
-
-    <% if @unpinned_notes.any? %>
-      <div id="unpinned-notes"
-           class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-           data-controller="sortable"
-           data-sortable-url-value="<%= update_position_note_path(":id") %>"
-           data-sortable-section-value="unpinned">
-        <%= render partial: "notes/note_card", collection: @unpinned_notes, as: :note %>
-      </div>
-    <% else %>
-      <div class="text-center py-12">
-        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white"><%= t("notes.index.no_notes") %></h3>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t("notes.index.get_started") %></p>
-        <div class="mt-6">
-          <%= link_to t("notes.index.new_note"), new_note_path,
-              class: "btn-primary",
-              data: { turbo_frame: "modal" } %>
-        </div>
-      </div>
-    <% end %>
-  </section>
+  <div id="notes-container">
+    <%= render "notes_list", pinned_notes: @pinned_notes, unpinned_notes: @unpinned_notes %>
+  </div>
 </div>
 
 <%= turbo_frame_tag "modal" %>
