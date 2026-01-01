@@ -37,7 +37,7 @@
                     url: url,
                     method: local_assigns[:method] || :post,
                     id: "note-form",
-                    data: { autosave_target: "form", turbo_frame: "_top" } do |form| %>
+                    data: { autosave_target: "form" } do |form| %>
         <div class="space-y-4">
           <div>
             <%= form.label :title, t("notes.form.title_label"), class: "sr-only" %>
@@ -91,18 +91,20 @@
           </div>
 
           <% if current_user.tags.any? %>
-            <fieldset>
+            <fieldset data-controller="tag-picker">
               <legend class="form-label mb-2"><%= t("notes.form.tags") %></legend>
-              <div class="flex flex-wrap gap-3">
+              <div class="flex flex-wrap gap-2">
                 <% current_user.tags.each do |tag| %>
-                  <label class="inline-flex items-center cursor-pointer">
+                  <label class="tag-toggle <%= 'tag-toggle-active' if note.tags.include?(tag) %>"
+                         data-tag-picker-target="tag">
                     <%= form.check_box :tag_ids,
                         { multiple: true,
                           checked: note.tags.include?(tag),
                           id: "note_tag_#{tag.id}",
-                          data: { action: "change->autosave#save" } },
+                          class: "sr-only",
+                          data: { action: "change->tag-picker#toggle change->autosave#save" } },
                         tag.id, nil %>
-                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300"><%= tag.name %></span>
+                    <span><%= tag.name %></span>
                   </label>
                 <% end %>
               </div>

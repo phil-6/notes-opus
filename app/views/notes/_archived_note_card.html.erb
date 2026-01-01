@@ -30,17 +30,17 @@
     <% end %>
   </div>
 
-  <div class="opacity-75">
+  <div>
     <% if note.title.present? %>
       <h3 class="font-medium mb-2 pr-20" style="color: inherit;"><%= note.title %></h3>
     <% end %>
 
-    <div class="text-sm note-content-scroll prose prose-sm max-w-none" style="color: inherit;">
+    <div class="text-sm note-content-scroll prose prose-sm max-w-none opacity-75" style="color: inherit;">
       <%= note.content %>
     </div>
 
-    <div class="mt-3 text-xs opacity-60">
-      <%= t("notes.archived.archived_on", date: l(note.archived_at, format: :short)) %>
+    <div class="mt-3 pt-2 border-t border-current/10 text-xs text-gray-600 dark:text-gray-400">
+      <%= t("notes.archived.archived_on", date: l(note.archived_at, format: :long)) %>
     </div>
   </div>
 </div>
