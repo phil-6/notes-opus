@@ -172,7 +172,8 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.27.0)
+    minitest (6.0.1)
+      prism (~> 1.5)
     msgpack (1.8.0)
     net-imap (0.6.2)
       date
@@ -412,7 +413,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   kamal
-  minitest (~> 5.25)
+  minitest (~> 6.0)
   pagy (~> 8.0)
   propshaft
   puma (>= 5.0)
