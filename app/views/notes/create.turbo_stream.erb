@@ -1,5 +1,5 @@
 <%= turbo_stream.prepend "unpinned-notes" do %>
-  <%= render "note_card", note: @note %>
+  <%= render "note_card", note: @note, current_user: current_user %>
 <% end %>
 
 <%= turbo_stream.remove "empty-state" %>

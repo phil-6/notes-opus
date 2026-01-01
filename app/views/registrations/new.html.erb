@@ -2,10 +2,19 @@
   <div class="max-w-md w-full space-y-8">
     <div class="text-center">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= t("application.name") %></h1>
-      <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("registrations.new.title") %></h2>
+      <% if @invitation %>
+        <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300">
+          <%= t("registrations.new.invitation_title", name: @invitation.inviter.display_name) %>
+        </h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          <%= t("registrations.new.invitation_description") %>
+        </p>
+      <% else %>
+        <h2 class="mt-6 text-xl text-gray-600 dark:text-gray-300"><%= t("registrations.new.title") %></h2>
+      <% end %>
     </div>
 
-    <%= form_with model: @user, url: registration_path, id: "registration-form", class: "mt-8 space-y-6" do |form| %>
+    <%= form_with model: @user, url: registration_path(invitation_token: @invitation&.token), id: "registration-form", class: "mt-8 space-y-6" do |form| %>
       <% if @user.errors.any? %>
         <div class="flash-alert px-4 py-3 rounded" role="alert" id="registration-errors">
           <ul class="list-disc list-inside">
@@ -35,7 +44,13 @@
                                required: true,
                                autocomplete: "email",
                                placeholder: t("registrations.new.email_placeholder"),
-                               class: "form-input mt-1" %>
+                               readonly: @invitation.present?,
+                               class: "form-input mt-1 #{'bg-gray-100 dark:bg-gray-700' if @invitation}" %>
+          <% if @invitation %>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              This email address was specified in the invitation.
+            </p>
+          <% end %>
         </div>
 
         <div>

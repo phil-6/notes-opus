@@ -33,6 +33,11 @@ Rails.application.routes.draw do
   # Connections
   resources :connections, only: %i[index create destroy]
 
+  # Invitations
+  resources :invitations, only: [] do
+    delete :cancel, on: :member, to: "connections#cancel_invitation", as: :cancel
+  end
+
   # Shared notes
   resources :shared_notes, only: :index
 

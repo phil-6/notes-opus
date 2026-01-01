@@ -39,6 +39,7 @@ en:
     edit: "Edit"
     create: "Create"
     close: "Close"
+    clear_filters: "Clear filters"
 
   header:
     dark_mode: "Dark mode"
@@ -66,6 +67,8 @@ en:
   registrations:
     new:
       title: "Create your account"
+      invitation_title: "Accept invitation from %{name}"
+      invitation_description: "You've been invited to connect on Privacy Notes. Create your account to get started."
       display_name: "Display name"
       display_name_placeholder: "Your name"
       email: "Email address"
@@ -165,12 +168,22 @@ en:
       add_connection: "Add a connection"
       email_placeholder: "Enter email address"
       add: "Add"
+      add_hint: "If they're not on Privacy Notes yet, we'll create an invitation link for you."
       remove: "Remove"
+      cancel: "Cancel"
+      copy: "Copy link"
+      copied: "Copied!"
+      pending_invitations: "Pending invitations"
+      expires: "Expires %{date}"
       no_connections: "No connections yet. Add people to share notes with them."
     user_not_found: "No user found with that email address."
     created: "Connection added."
     removed: "Connection removed."
     confirm_remove: "Remove this connection?"
+    confirm_cancel: "Cancel this invitation?"
+    invitation_sent: "Invitation created for %{email}. Share the link to connect!"
+    invitation_already_sent: "An invitation has already been sent to this email."
+    invitation_cancelled: "Invitation cancelled."
 
   shares:
     user_not_found: "No user found with that email address."
@@ -220,3 +233,7 @@ en:
           attributes:
             connected_user:
               cannot_connect_with_self: "You can't connect with yourself"
+        invitation:
+          attributes:
+            email_address:
+              already_registered: "This email is already registered"

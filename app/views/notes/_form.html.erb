@@ -37,7 +37,7 @@
                     url: url,
                     method: local_assigns[:method] || :post,
                     id: "note-form",
-                    data: { autosave_target: "form" } do |form| %>
+                    data: { autosave_target: "form", turbo_frame: "_top" } do |form| %>
         <div class="space-y-4">
           <div>
             <%= form.label :title, t("notes.form.title_label"), class: "sr-only" %>
@@ -56,23 +56,37 @@
                 data: { action: "trix-change->autosave#save" } %>
           </div>
 
-          <div>
-            <span class="form-label mb-2" id="color-label"><%= t("notes.form.color") %></span>
-            <div class="flex flex-wrap gap-2"
-                 data-controller="color-picker"
+          <div class="relative" data-controller="color-picker">
+            <button type="button"
+                    class="inline-flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                    data-color-picker-target="button"
+                    data-action="click->color-picker#toggle"
+                    aria-label="<%= t('notes.form.color') %>">
+              <span class="w-5 h-5 rounded-full border border-gray-300 dark:border-gray-500 color-swatch-<%= note.color || 'gray' %>"
+                    data-color-picker-target="buttonColor"></span>
+              <span class="text-gray-700 dark:text-gray-300"><%= t("notes.form.color") %></span>
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+
+            <div class="hidden absolute left-0 mt-2 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-20"
+                 data-color-picker-target="dropdown"
                  role="radiogroup"
-                 aria-labelledby="color-label">
-              <% Note::COLORS.each do |color| %>
-                <label class="color-swatch color-swatch-<%= color %> <%= 'selected' if note.color == color %>"
-                       data-color-picker-target="swatch"
-                       data-color="<%= color %>"
-                       title="<%= color.capitalize %>">
-                  <%= form.radio_button :color, color,
-                      id: "note_color_#{color}",
-                      class: "sr-only",
-                      data: { action: "change->color-picker#select change->autosave#save" } %>
-                </label>
-              <% end %>
+                 aria-label="<%= t('notes.form.color') %>">
+              <div class="grid grid-cols-11 gap-2">
+                <% Note::COLORS.each do |color| %>
+                  <label class="color-swatch color-swatch-<%= color %> <%= 'selected' if note.color == color %>"
+                         data-color-picker-target="swatch"
+                         data-color="<%= color %>"
+                         title="<%= color.capitalize %>">
+                    <%= form.radio_button :color, color,
+                        id: "note_color_#{color}",
+                        class: "sr-only",
+                        data: { action: "change->color-picker#select change->autosave#save" } %>
+                  </label>
+                <% end %>
+              </div>
             </div>
           </div>
 

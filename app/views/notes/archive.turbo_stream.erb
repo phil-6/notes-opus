@@ -1,3 +1,1 @@
-<%= turbo_stream.update "notes-container" do %>
-  <%= render "notes_list", pinned_notes: @pinned_notes, unpinned_notes: @unpinned_notes %>
-<% end %>
+<%= turbo_stream.remove dom_id(@note) %>

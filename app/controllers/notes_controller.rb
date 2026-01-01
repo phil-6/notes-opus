@@ -5,9 +5,25 @@ class NotesController < ApplicationController
   before_action :authorize_note, only: %i[edit update destroy pin unpin archive unarchive update_position]
 
   def index
-    @pinned_notes = current_user.notes.active.pinned.includes(:user, :tags, :rich_text_content)
-    @unpinned_notes = current_user.notes.active.unpinned.includes(:user, :tags, :rich_text_content)
-    @shared_notes = current_user.notes_shared_with_me.active.includes(:user, :tags, :rich_text_content)
+    if params[:filter] == "shared"
+      @pinned_notes = []
+      @unpinned_notes = []
+      @shared_notes = current_user.notes_shared_with_me.active.includes(:user, :tags, :rich_text_content)
+    elsif params[:tag].present?
+      tag = current_user.tags.find_by(id: params[:tag])
+      if tag
+        @pinned_notes = current_user.notes.active.pinned.joins(:tags).where(tags: { id: tag.id }).includes(:user, :tags, :rich_text_content)
+        @unpinned_notes = current_user.notes.active.unpinned.joins(:tags).where(tags: { id: tag.id }).includes(:user, :tags, :rich_text_content)
+      else
+        @pinned_notes = []
+        @unpinned_notes = []
+      end
+      @shared_notes = []
+    else
+      @pinned_notes = current_user.notes.active.pinned.includes(:user, :tags, :rich_text_content)
+      @unpinned_notes = current_user.notes.active.unpinned.includes(:user, :tags, :rich_text_content)
+      @shared_notes = current_user.notes_shared_with_me.active.includes(:user, :tags, :rich_text_content)
+    end
   end
 
   def archived
@@ -119,7 +135,23 @@ class NotesController < ApplicationController
   end
 
   def update_position
-    @note.update!(position: params[:position].to_i)
+    new_position = params[:position].to_i
+    old_position = @note.position
+
+    return head :ok if new_position == old_position
+
+    # Get the correct scope (pinned or unpinned notes)
+    scope = @note.pinned? ? current_user.notes.active.pinned : current_user.notes.active.unpinned
+
+    if new_position < old_position
+      # Moving up: shift notes in range [new_pos, old_pos-1] down by 1
+      scope.where(position: new_position...old_position).update_all("position = position + 1")
+    else
+      # Moving down: shift notes in range [old_pos+1, new_pos] up by 1
+      scope.where(position: (old_position + 1)..new_position).update_all("position = position - 1")
+    end
+
+    @note.update!(position: new_position)
     head :ok
   end
 

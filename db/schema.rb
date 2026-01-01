@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_140158) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_143134) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -57,6 +57,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_140158) do
     t.index ["connected_user_id"], name: "index_connections_on_connected_user_id"
     t.index ["user_id", "connected_user_id"], name: "index_connections_on_user_id_and_connected_user_id", unique: true
     t.index ["user_id"], name: "index_connections_on_user_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.datetime "accepted_at"
+    t.datetime "created_at", null: false
+    t.string "email_address", null: false
+    t.datetime "expires_at", null: false
+    t.integer "inviter_id", null: false
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address", "inviter_id"], name: "index_invitations_on_email_address_and_inviter_id", unique: true
+    t.index ["inviter_id"], name: "index_invitations_on_inviter_id"
+    t.index ["token"], name: "index_invitations_on_token", unique: true
   end
 
   create_table "notes", force: :cascade do |t|
@@ -145,6 +158,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_140158) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "connections", "users"
   add_foreign_key "connections", "users", column: "connected_user_id"
+  add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "notes", "users"
   add_foreign_key "notes", "users", column: "locked_by_id"
   add_foreign_key "sessions", "users"

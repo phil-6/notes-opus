@@ -11,7 +11,48 @@
           class: "form-input flex-1" %>
       <%= form.submit t("connections.index.add"), class: "btn-primary" %>
     <% end %>
+    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400"><%= t("connections.index.add_hint") %></p>
   </div>
+
+  <% if @pending_invitations.any? %>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-6">
+      <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white"><%= t("connections.index.pending_invitations") %></h2>
+      </div>
+      <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+        <% @pending_invitations.each do |invitation| %>
+          <li class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <p class="font-medium text-gray-900 dark:text-white"><%= invitation.email_address %></p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  <%= t("connections.index.expires", date: l(invitation.expires_at, format: :short)) %>
+                </p>
+              </div>
+              <%= button_to cancel_invitation_path(invitation),
+                  method: :delete,
+                  class: "text-red-600 hover:text-red-700 dark:text-red-400 text-sm",
+                  data: { turbo_confirm: t("connections.confirm_cancel") } do %>
+                <%= t("connections.index.cancel") %>
+              <% end %>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text"
+                     value="<%= invitation.invitation_url %>"
+                     readonly
+                     class="form-input text-sm flex-1"
+                     id="invitation-url-<%= invitation.id %>" />
+              <button type="button"
+                      class="btn-secondary text-sm"
+                      onclick="navigator.clipboard.writeText(document.getElementById('invitation-url-<%= invitation.id %>').value); this.textContent = '<%= t("connections.index.copied") %>'; setTimeout(() => this.textContent = '<%= t("connections.index.copy") %>', 2000);">
+                <%= t("connections.index.copy") %>
+              </button>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <% if @connections.any? %>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
@@ -32,7 +73,7 @@
         <% end %>
       </ul>
     </div>
-  <% else %>
+  <% elsif @pending_invitations.empty? %>
     <div class="text-center py-8 text-gray-500 dark:text-gray-400">
       <p><%= t("connections.index.no_connections") %></p>
     </div>
