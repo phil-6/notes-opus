@@ -1,14 +1,16 @@
-<header class="bg-white dark:bg-gray-800 shadow">
+<header>
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center gap-6">
-        <%= link_to t("application.name"), root_path, class: "text-xl font-bold text-gray-900 dark:text-white no-underline" %>
+        <%= link_to t("application.name"), root_path, class: "text-xl font-bold header-title no-underline" %>
 
         <nav class="hidden md:flex items-center gap-4">
           <%= link_to t("header.shared_with_me"), shared_notes_path,
-              class: "text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white no-underline" %>
+              class: "text-sm nav-link no-underline" %>
+          <%= link_to t("header.archived"), archived_notes_path,
+              class: "text-sm nav-link no-underline" %>
           <%= link_to t("header.tags"), tags_path,
-              class: "text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white no-underline" %>
+              class: "text-sm nav-link no-underline" %>
         </nav>
       </div>
 
@@ -16,6 +18,7 @@
         <button type="button"
                 id="theme-toggle"
                 class="theme-toggle"
+                title="<%= t('header.toggle_dark_mode') %>"
                 data-controller="dark-mode"
                 data-action="click->dark-mode#toggle"
                 aria-label="<%= t('header.toggle_dark_mode') %>">
@@ -32,7 +35,7 @@
         <div class="relative" data-controller="dropdown">
           <button type="button"
                   id="user-menu-button"
-                  class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                  class="flex items-center text-sm user-menu-button"
                   data-action="click->dropdown#toggle"
                   aria-expanded="false"
                   aria-haspopup="true">
@@ -42,26 +45,29 @@
             </svg>
           </button>
 
-          <div class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg py-1 z-10"
+          <div class="hidden absolute right-0 mt-2 w-48 dropdown-menu rounded-md py-1 z-10"
                id="user-menu"
                data-dropdown-target="menu"
                role="menu"
                aria-orientation="vertical"
                aria-labelledby="user-menu-button">
-            <div class="md:hidden border-b border-gray-200 dark:border-gray-600 pb-1 mb-1">
+            <div class="md:hidden border-b dropdown-divider pb-1 mb-1">
               <%= link_to t("header.shared_with_me"), shared_notes_path,
-                  class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 no-underline",
+                  class: "block px-4 py-2 text-sm dropdown-item no-underline",
+                  role: "menuitem" %>
+              <%= link_to t("header.archived"), archived_notes_path,
+                  class: "block px-4 py-2 text-sm dropdown-item no-underline",
                   role: "menuitem" %>
               <%= link_to t("header.tags"), tags_path,
-                  class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 no-underline",
+                  class: "block px-4 py-2 text-sm dropdown-item no-underline",
                   role: "menuitem" %>
             </div>
             <%= link_to t("header.connections"), connections_path,
-                class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 no-underline",
+                class: "block px-4 py-2 text-sm dropdown-item no-underline",
                 role: "menuitem" %>
             <%= button_to t("header.sign_out"), session_path,
                 method: :delete,
-                class: "block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600",
+                class: "block w-full text-left px-4 py-2 text-sm dropdown-item",
                 role: "menuitem" %>
           </div>
         </div>

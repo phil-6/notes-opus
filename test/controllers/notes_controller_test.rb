@@ -37,10 +37,41 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy note" do
+    # Notes must be archived before they can be deleted
+    @note.archive!
     assert_difference("Note.count", -1) do
       delete note_url(@note)
     end
+    assert_redirected_to archived_notes_url
+  end
+
+  test "should not destroy non-archived note" do
+    assert_no_difference("Note.count") do
+      delete note_url(@note)
+    end
     assert_redirected_to notes_url
+    assert_equal I18n.t("notes.must_archive_first"), flash[:alert]
+  end
+
+  test "should archive note" do
+    patch archive_note_url(@note)
+    assert_redirected_to notes_url
+    @note.reload
+    assert @note.archived?
+  end
+
+  test "should unarchive note" do
+    @note.archive!
+    patch unarchive_note_url(@note)
+    assert_redirected_to archived_notes_url
+    @note.reload
+    assert_not @note.archived?
+  end
+
+  test "should get archived notes" do
+    @note.archive!
+    get archived_notes_url
+    assert_response :success
   end
 
   test "should pin note" do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_110705) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_123300) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_110705) do
   end
 
   create_table "notes", force: :cascade do |t|
+    t.datetime "archived_at"
     t.string "color", default: "gray"
     t.datetime "created_at", null: false
     t.datetime "locked_at"
@@ -69,6 +70,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_110705) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["archived_at"], name: "index_notes_on_archived_at"
     t.index ["locked_by_id"], name: "index_notes_on_locked_by_id"
     t.index ["pinned"], name: "index_notes_on_pinned"
     t.index ["position"], name: "index_notes_on_position"
@@ -124,9 +126,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_110705) do
   end
 
   create_table "versions", force: :cascade do |t|
+    t.string "change_type"
     t.text "content"
     t.datetime "created_at", null: false
     t.integer "note_id", null: false
+    t.string "previous_color"
+    t.text "previous_content"
+    t.string "previous_title"
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false

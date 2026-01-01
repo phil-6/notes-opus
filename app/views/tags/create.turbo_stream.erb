@@ -1,0 +1,20 @@
+<%= turbo_stream.update "tags-container" do %>
+  <div id="tags-list" class="bg-white dark:bg-gray-800 rounded-lg shadow">
+    <ul id="tags-ul" class="divide-y divide-gray-200 dark:divide-gray-700">
+      <% current_user.tags.order(:name).each do |tag| %>
+        <%= render "tag", tag: tag %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "new-tag-form" do %>
+  <%= form_with model: Tag.new, url: tags_path, id: "new-tag-form", class: "flex gap-3" do |form| %>
+    <%= form.text_field :name,
+        id: "tag_name",
+        placeholder: t("tags.index.name_placeholder"),
+        required: true,
+        class: "form-input flex-1" %>
+    <%= form.submit t("tags.index.create"), class: "btn-primary" %>
+  <% end %>
+<% end %>

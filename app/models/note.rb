@@ -22,6 +22,20 @@ class Note < ApplicationRecord
   scope :pinned, -> { where(pinned: true).order(position: :asc) }
   scope :unpinned, -> { where(pinned: false).order(position: :asc) }
   scope :ordered, -> { order(position: :asc) }
+  scope :active, -> { where(archived_at: nil) }
+  scope :archived, -> { where.not(archived_at: nil) }
+
+  def archived?
+    archived_at.present?
+  end
+
+  def archive!
+    update!(archived_at: Time.current)
+  end
+
+  def unarchive!
+    update!(archived_at: nil)
+  end
 
   def locked?
     locked_at.present? && locked_at > 5.minutes.ago

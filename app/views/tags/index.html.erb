@@ -4,8 +4,9 @@
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
     <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4"><%= t("tags.index.create_tag") %></h2>
 
-    <%= form_with model: @tag, url: tags_path, class: "flex gap-3" do |form| %>
+    <%= form_with model: @tag, url: tags_path, id: "new-tag-form", class: "flex gap-3" do |form| %>
       <%= form.text_field :name,
+          id: "tag_name",
           placeholder: t("tags.index.name_placeholder"),
           required: true,
           class: "form-input flex-1" %>
@@ -13,17 +14,19 @@
     <% end %>
   </div>
 
-  <% if @tags.any? %>
-    <div id="tags-list" class="bg-white dark:bg-gray-800 rounded-lg shadow">
-      <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-        <% @tags.each do |tag| %>
-          <%= render "tag", tag: tag %>
-        <% end %>
-      </ul>
-    </div>
-  <% else %>
-    <div class="text-center py-8 text-gray-500 dark:text-gray-400">
-      <p><%= t("tags.index.no_tags") %></p>
-    </div>
-  <% end %>
+  <div id="tags-container">
+    <% if @tags.any? %>
+      <div id="tags-list" class="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <ul id="tags-ul" class="divide-y divide-gray-200 dark:divide-gray-700">
+          <% @tags.each do |tag| %>
+            <%= render "tag", tag: tag %>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <div id="no-tags-message" class="text-center py-8 text-gray-500 dark:text-gray-400">
+        <p><%= t("tags.index.no_tags") %></p>
+      </div>
+    <% end %>
+  </div>
 </div>

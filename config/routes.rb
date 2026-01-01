@@ -11,9 +11,15 @@ Rails.application.routes.draw do
 
   # Notes
   resources :notes do
+    collection do
+      get :archived
+    end
+
     member do
       patch :pin
       patch :unpin
+      patch :archive
+      patch :unarchive
       patch :update_position
     end
 

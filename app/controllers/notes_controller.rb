@@ -1,12 +1,16 @@
 class NotesController < ApplicationController
   include Pagy::Backend
 
-  before_action :set_note, only: %i[show edit update destroy pin unpin update_position]
-  before_action :authorize_note, only: %i[edit update destroy pin unpin update_position]
+  before_action :set_note, only: %i[show edit update destroy pin unpin archive unarchive update_position]
+  before_action :authorize_note, only: %i[edit update destroy pin unpin archive unarchive update_position]
 
   def index
-    @pinned_notes = current_user.notes.pinned.includes(:tags, :rich_text_content)
-    @unpinned_notes = current_user.notes.unpinned.includes(:tags, :rich_text_content)
+    @pinned_notes = current_user.notes.active.pinned.includes(:tags, :rich_text_content)
+    @unpinned_notes = current_user.notes.active.unpinned.includes(:tags, :rich_text_content)
+  end
+
+  def archived
+    @archived_notes = current_user.notes.archived.order(archived_at: :desc).includes(:tags, :rich_text_content)
   end
 
   def show
@@ -60,9 +64,14 @@ class NotesController < ApplicationController
   end
 
   def destroy
+    unless @note.archived?
+      redirect_to notes_path, alert: t("notes.must_archive_first")
+      return
+    end
+
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to notes_path, notice: t("notes.deleted"), status: :see_other }
+      format.html { redirect_to archived_notes_path, notice: t("notes.deleted"), status: :see_other }
       format.turbo_stream
     end
   end
@@ -85,12 +94,30 @@ class NotesController < ApplicationController
     end
   end
 
+  def archive
+    @note.archive!
+    load_notes_for_list
+    respond_to do |format|
+      format.html { redirect_to notes_path, notice: t("notes.archived"), status: :see_other }
+      format.turbo_stream
+    end
+  end
+
+  def unarchive
+    @note.unarchive!
+    respond_to do |format|
+      format.html { redirect_to archived_notes_path, notice: t("notes.unarchived"), status: :see_other }
+      format.turbo_stream { redirect_to archived_notes_path, status: :see_other }
+    end
+  end
+
   def update_position
     @note.update!(position: params[:position].to_i)
     head :ok
   end
 
   private
+
   def set_note
     @note = Note.find(params[:id])
   end
@@ -114,11 +141,11 @@ class NotesController < ApplicationController
   end
 
   def next_position
-    (current_user.notes.unpinned.maximum(:position) || 0) + 1
+    (current_user.notes.active.unpinned.maximum(:position) || 0) + 1
   end
 
   def next_pinned_position
-    (current_user.notes.pinned.maximum(:position) || 0) + 1
+    (current_user.notes.active.pinned.maximum(:position) || 0) + 1
   end
 
   def should_create_version?
@@ -133,13 +160,17 @@ class NotesController < ApplicationController
   def create_version
     @note.versions.create!(
       user: current_user,
+      change_type: "edit",
       title: @note.title,
-      content: @note.content.to_plain_text
+      content: @note.content.to_plain_text,
+      previous_title: @note.title_was,
+      previous_content: @note.content_was&.to_plain_text,
+      previous_color: @note.color_was
     )
   end
 
   def load_notes_for_list
-    @pinned_notes = current_user.notes.pinned.includes(:tags, :rich_text_content)
-    @unpinned_notes = current_user.notes.unpinned.includes(:tags, :rich_text_content)
+    @pinned_notes = current_user.notes.active.pinned.includes(:tags, :rich_text_content)
+    @unpinned_notes = current_user.notes.active.unpinned.includes(:tags, :rich_text_content)
   end
 end

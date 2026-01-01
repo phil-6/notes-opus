@@ -1,0 +1,25 @@
+<div class="max-w-7xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white"><%= t("notes.archived.title") %></h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1"><%= t("notes.archived.description") %></p>
+    </div>
+    <%= link_to t("common.back"), notes_path, class: "btn-secondary" %>
+  </div>
+
+  <% if @archived_notes.any? %>
+    <div id="archived-notes" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <% @archived_notes.each do |note| %>
+        <%= render "archived_note_card", note: note %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white"><%= t("notes.archived.no_notes") %></h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t("notes.archived.no_notes_description") %></p>
+    </div>
+  <% end %>
+</div>

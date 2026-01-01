@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
+/* Dark mode configuration for Tailwind v4 */
+@custom-variant dark (&:where(html.dark, html.dark *));
+
+/* Base page styles - light and dark mode */
+body {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+}
+
+html.dark body {
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+}
+
+/* Header styles */
+header {
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+html.dark header {
+  background-color: var(--color-gray-800);
+}
+
 /* Note card background colors - light mode */
 .note-card-slate { background-color: var(--color-slate-100); color: var(--color-slate-900); }
 .note-card-gray { background-color: var(--color-gray-100); color: var(--color-gray-900); }
@@ -500,4 +524,83 @@ html.dark .prose a {
 /* Body scroll lock for modals */
 body.overflow-hidden {
   overflow: hidden;
+}
+
+/* Navigation link styles */
+.nav-link {
+  color: var(--color-gray-600);
+  transition: color 150ms;
+}
+
+.nav-link:hover {
+  color: var(--color-gray-900);
+}
+
+html.dark .nav-link {
+  color: var(--color-gray-300);
+}
+
+html.dark .nav-link:hover {
+  color: white;
+}
+
+/* Header title link */
+.header-title {
+  color: var(--color-gray-900);
+}
+
+html.dark .header-title {
+  color: white;
+}
+
+/* User menu button */
+.user-menu-button {
+  color: var(--color-gray-700);
+}
+
+.user-menu-button:hover {
+  color: var(--color-gray-900);
+}
+
+html.dark .user-menu-button {
+  color: var(--color-gray-300);
+}
+
+html.dark .user-menu-button:hover {
+  color: white;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+html.dark .dropdown-menu {
+  background-color: var(--color-gray-700);
+}
+
+.dropdown-item {
+  color: var(--color-gray-700);
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-gray-100);
+}
+
+html.dark .dropdown-item {
+  color: var(--color-gray-200);
+}
+
+html.dark .dropdown-item:hover {
+  background-color: var(--color-gray-600);
+}
+
+/* Divider for dropdown */
+.dropdown-divider {
+  border-color: var(--color-gray-200);
+}
+
+html.dark .dropdown-divider {
+  border-color: var(--color-gray-600);
 }
