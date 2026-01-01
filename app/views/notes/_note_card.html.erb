@@ -1,66 +1,82 @@
+<% is_owner = defined?(current_user) && note.user == current_user %>
 <%= turbo_frame_tag dom_id(note) do %>
   <div id="<%= dom_id(note, :card) %>"
        class="group relative rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow <%= note_card_class(note.color) %>"
        data-note-id="<%= note.id %>">
-    <div class="note-actions absolute top-2 right-2 flex items-center gap-1">
-      <% if note.pinned? %>
-        <%= button_to unpin_note_path(note),
+    <% if is_owner %>
+      <div class="note-actions absolute top-2 right-2 flex items-center gap-1 z-10">
+        <% if note.pinned? %>
+          <%= button_to unpin_note_path(note),
+              method: :patch,
+              form: { class: "inline" },
+              class: "p-2 rounded hover:bg-black/10",
+              id: "unpin-note-#{note.id}",
+              title: t("notes.unpin"),
+              aria: { label: t("notes.unpin") } do %>
+            <!-- Filled bookmark with slash (pinned, click to unpin) -->
+            <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+              <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          <% end %>
+        <% else %>
+          <%= button_to pin_note_path(note),
+              method: :patch,
+              form: { class: "inline" },
+              class: "p-2 rounded hover:bg-black/10 opacity-60 hover:opacity-100",
+              id: "pin-note-#{note.id}",
+              title: t("notes.pin"),
+              aria: { label: t("notes.pin") } do %>
+            <!-- Outline bookmark (unpinned, click to pin) -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+            </svg>
+          <% end %>
+        <% end %>
+
+        <%= button_to archive_note_path(note),
             method: :patch,
-            class: "p-1 rounded hover:bg-black/10",
-            id: "unpin-note-#{note.id}",
-            title: t("notes.unpin"),
-            aria: { label: t("notes.unpin") } do %>
-          <!-- Filled bookmark with slash (pinned, click to unpin) -->
-          <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-            <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            form: { class: "inline" },
+            class: "p-2 rounded hover:bg-black/10 opacity-60 hover:opacity-100",
+            id: "archive-note-#{note.id}",
+            title: t("notes.archive"),
+            aria: { label: t("notes.archive") } do %>
+          <!-- Archive icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
           </svg>
         <% end %>
-      <% else %>
-        <%= button_to pin_note_path(note),
-            method: :patch,
-            class: "p-1 rounded hover:bg-black/10 opacity-60 hover:opacity-100",
-            id: "pin-note-#{note.id}",
-            title: t("notes.pin"),
-            aria: { label: t("notes.pin") } do %>
-          <!-- Outline bookmark (unpinned, click to pin) -->
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+
+        <div class="drag-handle p-2 opacity-60 hover:opacity-100 cursor-grab"
+             data-sortable-target="handle"
+             title="<%= t('notes.drag_to_reorder') %>">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
           </svg>
-        <% end %>
-      <% end %>
-
-      <%= button_to archive_note_path(note),
-          method: :patch,
-          class: "p-1 rounded hover:bg-black/10 opacity-60 hover:opacity-100",
-          id: "archive-note-#{note.id}",
-          title: t("notes.archive"),
-          aria: { label: t("notes.archive") } do %>
-        <!-- Archive icon -->
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
-        </svg>
-      <% end %>
-
-      <div class="drag-handle p-1 opacity-60 hover:opacity-100"
-           data-sortable-target="handle"
-           title="<%= t('notes.drag_to_reorder') %>">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
-        </svg>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <%= link_to edit_note_path(note),
         class: "block no-underline",
         id: "edit-note-#{note.id}",
         title: t("notes.edit"),
         data: { turbo_frame: "modal" } do %>
-      <% if note.title.present? %>
-        <h3 class="font-medium mb-2 pr-16" style="color: inherit;"><%= note.title %></h3>
+
+      <% unless is_owner %>
+        <div class="flex items-center gap-1 mb-2 text-xs opacity-70">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span><%= note.user.display_name %></span>
+        </div>
       <% end %>
 
-      <div class="text-sm line-clamp-6 prose prose-sm max-w-none" style="color: inherit;">
+      <% if note.title.present? %>
+        <h3 class="font-medium mb-2 <%= is_owner ? 'pr-24' : '' %>" style="color: inherit;"><%= note.title %></h3>
+      <% end %>
+
+      <div class="text-sm note-content-scroll prose prose-sm max-w-none" style="color: inherit;">
         <%= note.content %>
       </div>
 

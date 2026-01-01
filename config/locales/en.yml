@@ -102,6 +102,7 @@ en:
       new_note: "New Note"
       pinned: "Pinned"
       other: "Other notes"
+      shared_with_me: "Shared with me"
       no_notes: "No notes yet"
       get_started: "Create your first note to get started."
     archived:

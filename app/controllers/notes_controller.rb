@@ -5,8 +5,9 @@ class NotesController < ApplicationController
   before_action :authorize_note, only: %i[edit update destroy pin unpin archive unarchive update_position]
 
   def index
-    @pinned_notes = current_user.notes.active.pinned.includes(:tags, :rich_text_content)
-    @unpinned_notes = current_user.notes.active.unpinned.includes(:tags, :rich_text_content)
+    @pinned_notes = current_user.notes.active.pinned.includes(:user, :tags, :rich_text_content)
+    @unpinned_notes = current_user.notes.active.unpinned.includes(:user, :tags, :rich_text_content)
+    @shared_notes = current_user.notes_shared_with_me.active.includes(:user, :tags, :rich_text_content)
   end
 
   def archived
@@ -26,7 +27,7 @@ class NotesController < ApplicationController
 
   def create
     @note = current_user.notes.build(note_params)
-    @note.position = next_position
+    prepend_note_position
 
     if @note.save
       respond_to do |format|
@@ -78,7 +79,9 @@ class NotesController < ApplicationController
   end
 
   def pin
-    @note.update!(pinned: true, position: next_pinned_position)
+    # Shift pinned notes and place this at the beginning
+    current_user.notes.active.pinned.update_all("position = position + 1")
+    @note.update!(pinned: true, position: 0)
     load_notes_for_list
     respond_to do |format|
       format.html { redirect_to notes_path, status: :see_other }
@@ -87,7 +90,9 @@ class NotesController < ApplicationController
   end
 
   def unpin
-    @note.update!(pinned: false, position: next_position)
+    # Shift unpinned notes and place this at the beginning
+    current_user.notes.active.unpinned.update_all("position = position + 1")
+    @note.update!(pinned: false, position: 0)
     load_notes_for_list
     respond_to do |format|
       format.html { redirect_to notes_path, status: :see_other }
@@ -142,12 +147,16 @@ class NotesController < ApplicationController
     params.require(:note).permit(:title, :content, :color, tag_ids: [])
   end
 
-  def next_position
-    (current_user.notes.active.unpinned.maximum(:position) || 0) + 1
+  def prepend_note_position
+    # Shift all unpinned notes down and place new note at position 0
+    current_user.notes.active.unpinned.update_all("position = position + 1")
+    @note.position = 0
   end
 
   def next_pinned_position
-    (current_user.notes.active.pinned.maximum(:position) || 0) + 1
+    # Shift all pinned notes down and return position 0 for new pinned note
+    current_user.notes.active.pinned.update_all("position = position + 1")
+    0
   end
 
   def should_create_version?
@@ -173,6 +182,7 @@ class NotesController < ApplicationController
       change_type: "edit",
       title: @note.title,
       content: @note.content&.to_plain_text,
+      color: @note.color,
       previous_title: @previous_values[:title],
       previous_content: @previous_values[:content],
       previous_color: @previous_values[:color]

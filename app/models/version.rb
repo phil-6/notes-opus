@@ -17,7 +17,7 @@ class Version < ApplicationRecord
   end
 
   def color_changed?
-    previous_color.present?
+    previous_color.present? && previous_color != color
   end
 
   def changes_summary
