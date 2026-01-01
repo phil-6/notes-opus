@@ -48,12 +48,13 @@ class NotesController < ApplicationController
 
     if @note.save
       respond_to do |format|
-        format.html { redirect_to notes_path, notice: t("notes.created") }
         format.turbo_stream
+        format.html { redirect_to notes_path, notice: t("notes.created") }
         format.json { render json: { id: @note.id }, status: :created }
       end
     else
       respond_to do |format|
+        format.turbo_stream { render :new, status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: { errors: @note.errors.full_messages }, status: :unprocessable_entity }
       end

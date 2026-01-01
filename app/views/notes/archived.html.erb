@@ -5,7 +5,7 @@
   </div>
 
   <% if @archived_notes.any? %>
-    <div id="archived-notes" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <div id="archived-notes" class="masonry-grid">
       <% @archived_notes.each do |note| %>
         <%= render "archived_note_card", note: note %>
       <% end %>

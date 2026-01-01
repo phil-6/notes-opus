@@ -6,7 +6,7 @@
   <section class="mb-8">
     <h2 id="pinned-header" class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3"><%= t("notes.index.pinned") %></h2>
     <div id="pinned-notes"
-         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+         class="masonry-grid"
          data-controller="sortable"
          data-sortable-url-value="<%= update_position_note_path(":id") %>"
          data-sortable-section-value="pinned">
@@ -21,7 +21,7 @@
   <% end %>
 
   <div id="unpinned-notes"
-       class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+       class="masonry-grid"
        data-controller="sortable"
        data-sortable-url-value="<%= update_position_note_path(":id") %>"
        data-sortable-section-value="unpinned">
@@ -32,7 +32,7 @@
 <% if shared_notes.any? %>
   <section class="mt-8">
     <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3"><%= t("notes.index.shared_with_me") %></h2>
-    <div id="shared-notes" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <div id="shared-notes" class="masonry-grid">
       <%= render partial: "notes/note_card", collection: shared_notes, as: :note, locals: { current_user: current_user } %>
     </div>
   </section>

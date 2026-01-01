@@ -422,6 +422,35 @@ html.dark trix-editor[placeholder]:empty::before {
   color: var(--color-gray-500);
 }
 
+/* Masonry layout for note cards */
+.masonry-grid {
+  column-count: 2;
+  column-gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .masonry-grid {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-grid {
+    column-count: 4;
+  }
+}
+
+@media (min-width: 1280px) {
+  .masonry-grid {
+    column-count: 5;
+  }
+}
+
+.masonry-grid > * {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
 /* Note card hover actions */
 .note-actions {
   opacity: 0;
