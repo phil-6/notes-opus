@@ -109,8 +109,7 @@ en:
       no_notes: "No notes yet"
       get_started: "Create your first note to get started."
     archived:
-      title: "Archived Notes"
-      description: "Notes you've archived. Only archived notes can be permanently deleted."
+      title: "Archive"
       no_notes: "No archived notes"
       no_notes_description: "Notes you archive will appear here."
       archived_on: "Archived %{date}"
