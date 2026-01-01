@@ -95,6 +95,53 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to notes_url
   end
 
+  test "should update note position" do
+    note1 = notes(:alice_note)
+    note2 = @user.notes.create!(title: "Second Note", position: 1)
+
+    patch update_position_note_url(note2), params: { position: 0 }, as: :json
+    assert_response :ok
+
+    note2.reload
+    note1.reload
+    assert_equal 0, note2.position
+    assert_equal 1, note1.position
+  end
+
+  test "index returns notes ordered by position" do
+    @user.notes.active.unpinned.destroy_all
+    note3 = @user.notes.create!(title: "Third", position: 2)
+    note1 = @user.notes.create!(title: "First", position: 0)
+    note2 = @user.notes.create!(title: "Second", position: 1)
+
+    get notes_url
+    assert_response :success
+
+    # The notes should appear in position order in the response
+    assert_match(/First.*Second.*Third/m, response.body)
+  end
+
+  test "create note via turbo_stream prepends to list" do
+    assert_difference("Note.count") do
+      post notes_url, params: { note: { title: "New Note" } }, as: :turbo_stream
+    end
+    assert_response :success
+    assert_includes response.body, 'turbo-stream action="prepend" target="unpinned-notes"'
+  end
+
+  test "create note via turbo_stream clears modal" do
+    post notes_url, params: { note: { title: "New Note" } }, as: :turbo_stream
+    assert_response :success
+    assert_includes response.body, 'turbo-stream action="update" target="modal"'
+  end
+
+  test "archived notes show archived_at timestamp" do
+    @note.update!(archived_at: Time.current)
+    get archived_notes_url
+    assert_response :success
+    assert_match(/Archived/, response.body)
+  end
+
   private
   def sign_in_as(user)
     post session_url, params: { email_address: user.email_address, password: "password123" }

@@ -37,7 +37,7 @@
                     url: url,
                     method: local_assigns[:method] || :post,
                     id: "note-form",
-                    data: { autosave_target: "form" } do |form| %>
+                    data: { autosave_target: "form", turbo_stream: true } do |form| %>
         <div class="space-y-4">
           <div>
             <%= form.label :title, t("notes.form.title_label"), class: "sr-only" %>

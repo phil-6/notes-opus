@@ -12,16 +12,17 @@ class NotesController < ApplicationController
     elsif params[:tag].present?
       tag = current_user.tags.find_by(id: params[:tag])
       if tag
-        @pinned_notes = current_user.notes.active.where(pinned: true).joins(:tags).where(tags: { id: tag.id }).includes(:user, :tags, :rich_text_content).order(position: :asc)
-        @unpinned_notes = current_user.notes.active.where(pinned: false).joins(:tags).where(tags: { id: tag.id }).includes(:user, :tags, :rich_text_content).order(position: :asc)
+        tagged_notes = current_user.notes.active.joins(:tags).where(tags: { id: tag.id })
+        @pinned_notes = tagged_notes.pinned.includes(:user, :tags, :rich_text_content)
+        @unpinned_notes = tagged_notes.unpinned.includes(:user, :tags, :rich_text_content)
       else
         @pinned_notes = []
         @unpinned_notes = []
       end
       @shared_notes = []
     else
-      @pinned_notes = current_user.notes.active.where(pinned: true).includes(:user, :tags, :rich_text_content).order(position: :asc)
-      @unpinned_notes = current_user.notes.active.where(pinned: false).includes(:user, :tags, :rich_text_content).order(position: :asc)
+      @pinned_notes = current_user.notes.active.pinned.includes(:user, :tags, :rich_text_content)
+      @unpinned_notes = current_user.notes.active.unpinned.includes(:user, :tags, :rich_text_content)
       @shared_notes = current_user.notes_shared_with_me.active.includes(:user, :tags, :rich_text_content)
     end
   end
@@ -222,8 +223,8 @@ class NotesController < ApplicationController
   end
 
   def load_notes_for_list
-    @pinned_notes = current_user.notes.active.where(pinned: true).includes(:tags, :rich_text_content).order(position: :asc)
-    @unpinned_notes = current_user.notes.active.where(pinned: false).includes(:tags, :rich_text_content).order(position: :asc)
+    @pinned_notes = current_user.notes.active.pinned.includes(:tags, :rich_text_content)
+    @unpinned_notes = current_user.notes.active.unpinned.includes(:tags, :rich_text_content)
   end
 
   def load_archived_notes
