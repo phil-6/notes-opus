@@ -15,8 +15,8 @@ class NotesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
-      format.turbo_stream
+      format.html { redirect_to edit_note_path(@note) }
+      format.turbo_stream { redirect_to edit_note_path(@note) }
     end
   end
 
@@ -47,9 +47,10 @@ class NotesController < ApplicationController
   end
 
   def update
-    create_version if should_create_version?
+    capture_previous_values_for_version if should_create_version?
 
     if @note.update(note_params)
+      create_version if @previous_values
       respond_to do |format|
         format.html { redirect_to notes_path, notice: t("notes.updated") }
         format.turbo_stream
@@ -105,9 +106,10 @@ class NotesController < ApplicationController
 
   def unarchive
     @note.unarchive!
+    load_archived_notes
     respond_to do |format|
       format.html { redirect_to archived_notes_path, notice: t("notes.unarchived"), status: :see_other }
-      format.turbo_stream { redirect_to archived_notes_path, status: :see_other }
+      format.turbo_stream
     end
   end
 
@@ -157,20 +159,32 @@ class NotesController < ApplicationController
     last_version.created_at < 5.minutes.ago
   end
 
+  def capture_previous_values_for_version
+    @previous_values = {
+      title: @note.title,
+      content: @note.content&.to_plain_text,
+      color: @note.color
+    }
+  end
+
   def create_version
     @note.versions.create!(
       user: current_user,
       change_type: "edit",
       title: @note.title,
-      content: @note.content.to_plain_text,
-      previous_title: @note.title_was,
-      previous_content: @note.content_was&.to_plain_text,
-      previous_color: @note.color_was
+      content: @note.content&.to_plain_text,
+      previous_title: @previous_values[:title],
+      previous_content: @previous_values[:content],
+      previous_color: @previous_values[:color]
     )
   end
 
   def load_notes_for_list
     @pinned_notes = current_user.notes.active.pinned.includes(:tags, :rich_text_content)
     @unpinned_notes = current_user.notes.active.unpinned.includes(:tags, :rich_text_content)
+  end
+
+  def load_archived_notes
+    @archived_notes = current_user.notes.archived.order(archived_at: :desc).includes(:tags, :rich_text_content)
   end
 end
