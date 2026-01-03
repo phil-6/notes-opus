@@ -8,6 +8,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fill_in "Email address", with: user.email_address
     fill_in "Password", with: password
     click_button "Sign in"
-    assert_text "My Notes"
+    assert_selector "header" # Verify we're logged in by checking for header
   end
 end

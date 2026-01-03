@@ -108,6 +108,31 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, note1.position
   end
 
+  test "position changes persist across requests" do
+    # Create notes with known positions
+    @user.notes.active.unpinned.destroy_all
+    note1 = @user.notes.create!(title: "First", position: 0)
+    note2 = @user.notes.create!(title: "Second", position: 1)
+    note3 = @user.notes.create!(title: "Third", position: 2)
+
+    # Move third note to first position
+    patch update_position_note_url(note3), params: { position: 0 }, as: :json
+    assert_response :ok
+
+    # Verify database positions
+    note1.reload
+    note2.reload
+    note3.reload
+    assert_equal 0, note3.position, "Third note should be at position 0"
+    assert_equal 1, note1.position, "First note should be at position 1"
+    assert_equal 2, note2.position, "Second note should be at position 2"
+
+    # Fetch the index page and verify order
+    get notes_url
+    assert_response :success
+    assert_match(/Third.*First.*Second/m, response.body)
+  end
+
   test "index returns notes ordered by position" do
     @user.notes.active.unpinned.destroy_all
     note3 = @user.notes.create!(title: "Third", position: 2)
@@ -127,6 +152,23 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_includes response.body, 'turbo-stream action="prepend" target="unpinned-notes"'
+  end
+
+  test "create note via turbo_stream includes note card with title" do
+    post notes_url, params: { note: { title: "My Shiny New Note" } }, as: :turbo_stream
+    assert_response :success
+    # The turbo stream response should include the note card with the title
+    assert_includes response.body, "My Shiny New Note"
+  end
+
+  test "new note appears in index after creation" do
+    post notes_url, params: { note: { title: "Newly Created Note" } }
+    assert_redirected_to notes_url
+
+    # Follow the redirect and check the note appears
+    get notes_url
+    assert_response :success
+    assert_includes response.body, "Newly Created Note"
   end
 
   test "create note via turbo_stream clears modal" do

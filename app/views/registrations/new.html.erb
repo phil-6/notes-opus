@@ -27,7 +27,7 @@
 
       <div class="space-y-4">
         <div>
-          <%= form.label :display_name, t("registrations.new.display_name"), class: "form-label" %>
+          <%= form.label :display_name, t("registrations.new.display_name"), class: "form-label", for: "registrations_display_name" %>
           <%= form.text_field :display_name,
                               id: "registrations_display_name",
                               required: true,
@@ -38,7 +38,7 @@
         </div>
 
         <div>
-          <%= form.label :email_address, t("registrations.new.email"), class: "form-label" %>
+          <%= form.label :email_address, t("registrations.new.email"), class: "form-label", for: "registrations_email_address" %>
           <%= form.email_field :email_address,
                                id: "registrations_email_address",
                                required: true,
@@ -54,7 +54,7 @@
         </div>
 
         <div>
-          <%= form.label :password, t("registrations.new.password"), class: "form-label" %>
+          <%= form.label :password, t("registrations.new.password"), class: "form-label", for: "registrations_password" %>
           <%= form.password_field :password,
                                   id: "registrations_password",
                                   required: true,
@@ -67,7 +67,7 @@
         </div>
 
         <div>
-          <%= form.label :password_confirmation, t("registrations.new.password_confirmation"), class: "form-label" %>
+          <%= form.label :password_confirmation, t("registrations.new.password_confirmation"), class: "form-label", for: "registrations_password_confirmation" %>
           <%= form.password_field :password_confirmation,
                                   id: "registrations_password_confirmation",
                                   required: true,

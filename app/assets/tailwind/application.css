@@ -422,10 +422,41 @@ html.dark trix-editor[placeholder]:empty::before {
   color: var(--color-gray-500);
 }
 
+/* Trix editor list styles - ensure bullets and numbers are visible */
+trix-editor ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+trix-editor ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+trix-editor li {
+  margin: 0.25rem 0;
+}
+
+trix-editor ul ul {
+  list-style-type: circle;
+}
+
+trix-editor ul ul ul {
+  list-style-type: square;
+}
+
 /* Masonry layout for note cards */
 .masonry-grid {
-  column-count: 2;
+  column-count: 1;
   column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .masonry-grid {
+    column-count: 2;
+  }
 }
 
 @media (min-width: 768px) {
@@ -446,8 +477,22 @@ html.dark trix-editor[placeholder]:empty::before {
   }
 }
 
+/* Masonry grid items - prevent breaking and ensure proper spacing */
 .masonry-grid > * {
-  break-inside: avoid;
+  break-inside: avoid-column;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: 1rem;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Turbo frames inside masonry grid */
+.masonry-grid > turbo-frame {
+  display: block;
+  break-inside: avoid-column;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
   margin-bottom: 1rem;
 }
 

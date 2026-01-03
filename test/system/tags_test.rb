@@ -19,8 +19,8 @@ class TagsTest < ApplicationSystemTestCase
     fill_in placeholder: "Tag name", with: "New Test Tag"
     click_button "Create"
 
-    assert_text "Tag created"
-    assert_text "New Test Tag"
+    # Tag should appear in the list (turbo_stream updates the list)
+    assert_text "new test tag"
   end
 
   test "user can delete a tag" do

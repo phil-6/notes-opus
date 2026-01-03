@@ -14,30 +14,36 @@ class ConnectionsTest < ApplicationSystemTestCase
   end
 
   test "user can add a connection" do
+    # Create a new user to connect with (not already connected via fixture)
+    charlie = User.create!(
+      email_address: "charlie@example.com",
+      password: "password123",
+      display_name: "Charlie Brown"
+    )
+
     sign_in_as(@alice)
     visit connections_path
 
-    fill_in placeholder: "Enter email address", with: @bob.email_address
+    fill_in placeholder: "Enter email address", with: charlie.email_address
     click_button "Add"
 
     assert_text "Connection added"
-    assert_text @bob.display_name
+    assert_text charlie.display_name
   end
 
-  test "user cannot add connection with invalid email" do
+  test "user can send invitation for unknown email" do
     sign_in_as(@alice)
     visit connections_path
 
     fill_in placeholder: "Enter email address", with: "notauser@example.com"
     click_button "Add"
 
-    assert_text "No user found"
+    assert_text "Invitation created for notauser@example.com"
+    assert_text "notauser@example.com"
   end
 
   test "user can remove a connection" do
-    # Create connection first
-    Connection.create!(user: @alice, connected_user: @bob)
-
+    # The alice_to_bob connection already exists via fixture
     sign_in_as(@alice)
     visit connections_path
 

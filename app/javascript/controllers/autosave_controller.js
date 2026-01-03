@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import * as Turbo from "@hotwired/turbo"
 
 export default class extends Controller {
   static targets = ["form"]
@@ -59,22 +60,33 @@ export default class extends Controller {
     const method = isNewNote ? "POST" : "PATCH"
     const url = isNewNote ? this.urlValue : this.urlValue.replace(/\/notes$/, `/notes/${this.noteIdValue}`)
 
+    // Mark this as an autosave request so the server knows not to close the modal
+    formData.append("autosave", "true")
+
     try {
+      // For new notes, use turbo_stream to prepend the card to the UI
+      // For updates, use JSON to avoid UI flickering
+      const acceptHeader = isNewNote ? "text/vnd.turbo-stream.html" : "application/json"
+
       const response = await fetch(url, {
         method: method,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-          "Accept": "application/json"
+          "Accept": acceptHeader
         },
         body: formData
       })
 
       if (response.ok && isNewNote) {
         const contentType = response.headers.get("content-type")
-        if (contentType && contentType.includes("application/json")) {
-          const data = await response.json()
-          if (data.id) {
-            this.noteIdValue = String(data.id)
+        if (contentType && contentType.includes("turbo-stream")) {
+          const html = await response.text()
+          // Render the turbo stream to update the UI
+          Turbo.renderStreamMessage(html)
+          // Find the note ID from the rendered turbo frame
+          const match = html.match(/data-note-id="(\d+)"/)
+          if (match) {
+            this.noteIdValue = match[1]
           }
         }
       }

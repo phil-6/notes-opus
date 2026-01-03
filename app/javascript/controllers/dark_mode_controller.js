@@ -10,12 +10,17 @@ export default class extends Controller {
       toggleButton.setAttribute("aria-checked", isDark)
     }
 
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+    const headers = {
+      "Content-Type": "application/json"
+    }
+    if (csrfToken) {
+      headers["X-CSRF-Token"] = csrfToken
+    }
+
     fetch("/users/preferences", {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
-      },
+      headers: headers,
       body: JSON.stringify({ dark_mode: isDark })
     })
   }

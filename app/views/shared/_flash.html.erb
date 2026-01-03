@@ -4,14 +4,15 @@
                  when :alert, :error then "flash-alert"
                  else "flash-notice"
                  end %>
-  <div class="<%= css_class %> px-4 py-3 rounded mb-4"
+  <div class="<%= css_class %> px-4 py-3 rounded-lg shadow-lg max-w-sm transition-opacity duration-150"
        role="alert"
        data-controller="flash"
+       data-flash-dismiss-after-value="5000"
        id="flash-<%= type %>">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between gap-4">
       <span><%= message %></span>
       <button type="button"
-              class="ml-4 opacity-70 hover:opacity-100"
+              class="opacity-70 hover:opacity-100 shrink-0"
               data-action="click->flash#dismiss"
               aria-label="<%= t('common.close') %>">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

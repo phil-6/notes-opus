@@ -27,7 +27,7 @@
     <% end %>
   </div>
 
-  <div id="notes-container">
+  <div id="notes-container" data-controller="masonry">
     <%= render "notes_list", pinned_notes: @pinned_notes, unpinned_notes: @unpinned_notes, shared_notes: @shared_notes %>
   </div>
 </div>

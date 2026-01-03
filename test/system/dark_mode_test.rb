@@ -23,6 +23,16 @@ class DarkModeTest < ApplicationSystemTestCase
     find("#theme-toggle").click
     assert_selector "html.dark"
 
+    # Wait for the async preference save to complete
+    # Poll until the database is updated
+    Timeout.timeout(5) do
+      loop do
+        user.reload
+        break if user.dark_mode?
+        sleep 0.1
+      end
+    end
+
     visit notes_path
 
     assert_selector "html.dark"
